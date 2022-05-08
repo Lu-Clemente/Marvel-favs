@@ -1,8 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
-import TabBar from "../../components/TabBar";
-import styled from "styled-components";
+import { Text } from 'react-native';
 import BottomBar from '../../components/BottomBar';
 import { Btn, Container, Wrapper } from './styles';
 

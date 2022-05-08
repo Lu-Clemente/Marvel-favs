@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import TabBar from "../../components/TabBar";
 import Card from "../../components/Cards";
 import { Icon } from 'react-native-elements';
 import BottomBar from '../../components/BottomBar';
@@ -35,10 +34,10 @@ const Movies = () => {
                 <Page>Filmes</Page>
             </Back>
             <Wrapper>
-                <Card id={620} />
-                <Card id={579} />
-                <Card id={655} />
-                <Card id={332} />
+                <Card name={''} />
+                <Card name={''} />
+                <Card name={''} />
+                <Card name={''} />
             </Wrapper>
             <Dots>
                 <Bullets style={{ backgroundColor: "red" }} />

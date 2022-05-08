@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { TouchableOpacity, ScrollView, Dimensions, Alert } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import TabBar from "../../components/TabBar";
 import Card from "../../components/Cards";
 import { Icon } from 'react-native-elements';
 import { sendGetRequestPages } from '../../services/requests';

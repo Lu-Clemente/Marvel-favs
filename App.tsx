@@ -1,22 +1,21 @@
+import 'react-native-gesture-handler';
 import './src/config/Reactotron';
 
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+import React from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ThemeProvider } from 'react-native-elements';
+import { Provider } from 'react-redux';
+import { Store } from './src/redux/store';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={Store as any}>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          <View><Text>Hello world</Text></View>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </Provider >
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

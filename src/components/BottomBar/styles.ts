@@ -19,6 +19,7 @@ export const Nav = styled(View)`
     padding: 10px 0;
     border-top-color:#444;
     border-top-width: 1px;
+    background-color: #000;
 `;
 
 export const Profile = styled(View)`

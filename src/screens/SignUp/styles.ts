@@ -11,6 +11,7 @@ export const PageContainer = styled(View)`
   height: 100%;
   width: 100%;
   flex: 1;
+  align-items: center;
 `;
 
 export const Welcome = styled(View)`
@@ -24,8 +25,7 @@ export const Welcome = styled(View)`
 export const Title = styled(Text)`
   font-size: 30px;
   color: white;
-  text-transform: uppercase;
-  background-color: red;
+  text-align: center;
   font-family: ${theme.fonts.AxiformaRegular};
   padding: 10px;
   margin-bottom: 50px;
@@ -50,14 +50,14 @@ export const User = styled(View)`
 export const UserInput = styled(TextInput)`
   border-radius: 30px;
   height: 50px;
-  width: 100%;
+  width: 80%;
   background-color: white;
-  padding-left: 20px;
+  padding: 0 15px;
   border: 2px solid red;
 `;
 
 export const Button = styled(TouchableOpacity)`
-  width: 100%;
+  width: 70%;
   height: 50px;
   background-color: red;
   border-radius: 30px;

@@ -10,11 +10,11 @@ const HomeScreen = () => {
   const navigation = useNavigation<any>();
 
   const handleClickCharacters = () => {
-    navigation.replace("Characters")
+    navigation.navigate("Characters")
   }
 
   const handleClickMovies = () => {
-    navigation.replace("Movies")
+    navigation.navigate("Movies")
   }
 
   return (

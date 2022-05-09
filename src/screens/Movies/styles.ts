@@ -7,7 +7,9 @@ import styled from "styled-components";
 export const Container = styled(View)`
     height: 100%;
     width: 100%;
+    flex: 1;
     background-color: #000;
+    justify-content: space-between;
 `;
 
 export const Back = styled(View)`

@@ -10,7 +10,7 @@ const Greetings = () => {
     const navigation = useNavigation<any>();
 
     const handleGoHome = () => {
-        navigation.replace("Home");
+        navigation.navigate("Home");
     };
 
 

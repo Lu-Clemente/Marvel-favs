@@ -11,6 +11,7 @@ export const PageContainer = styled(View)`
   height: 100%;
   width: 100%;
   flex: 1;
+  justify-content: space-between;
 `;
 
 export const Container1 = styled(View)`
@@ -29,19 +30,20 @@ export const Welcome = styled(View)`
   height: 50px;
   width: 100%;
   justify-content: space-between;
+  margin-top: 15px;
 `;
 
 export const SubHeading = styled(Text)`
   font-size: 18px;
   font-weight: bold;
-  color: white;
+  color: #fff;
   text-align: center;
   font-family: ${theme.fonts.AxiformaRegular};
 `;
 
 export const Login = styled(Text)`
-  font-size: 14px;
-  color: white;
+  font-size: 15px;
+  color: #fff;
   text-align: center;
   font-family: ${theme.fonts.AxiformaLight};
 `;
@@ -53,6 +55,7 @@ export const User = styled(View)`
   flex-direction: column;
   justify-content: space-between;
   margin: 30px 0;
+  margin-bottom: 0;
 `;
 
 export const UserInput = styled(TextInput)`
@@ -60,7 +63,7 @@ export const UserInput = styled(TextInput)`
   height: 50px;
   width: 100%;
   background-color: white;
-  padding-left: 20px;
+  padding: 0 15px;
 `;
 
 export const Button = styled(TouchableOpacity)`
@@ -71,24 +74,24 @@ export const Button = styled(TouchableOpacity)`
 `;
 
 export const TextLogin = styled(Text)`
-  color: white;
+  color: #fff;
   text-align: center;
   margin: auto 0;
   font-size: 16px;
   font-family: ${theme.fonts.AxiformaLight};
 `;
 
-export const Box = styled(View)`
-  height: 50px;
+export const Box = styled(TouchableOpacity)`
+  height: 40px;
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  margin-bottom: 20px;
+  margin-right: 10px;
 `;
 
 export const CheckSpan = styled(Text)`
-  color: white;
+  color: #fff;
   font-family: ${theme.fonts.AxiformaRegular};
   font-size: 11px;
   margin-left: -15px;
@@ -97,13 +100,14 @@ export const CheckSpan = styled(Text)`
 export const Question = styled(View)`
   width: 100%;
   height: 20px;
+  margin-top: 25px;
   display: flex;
   flex-direction: row;
   justify-content: center;
 `;
 
 export const Span = styled(Text)`
-  color: white;
+  color: #fff;
   font-family: ${theme.fonts.AxiformaRegular};
   font-weight: bold;
   font-size: 16px;
@@ -115,14 +119,31 @@ export const Signup = styled(TouchableOpacity)`
 `;
 
 export const TextSignup = styled(Text)`
-  color: red;
+  color: #f00;
   font-family: ${theme.fonts.AxiformaRegular};
   font-size: 16px;
   font-weight: bold;
 `;
 
-export const Container2 = styled(View)`
-    height: 300px;
-    width: 100%;
-    flex: 1;
+export const PowerdBy = styled(View)`
+  width: 100%;
+  height: 110px;
+  padding: 0 12px;
+  justify-content: space-around;
+`;
+
+export const Disclaimer = styled(Text)`
+  font-family: ${theme.fonts.AxiformaLight};
+  font-size: 12px;
+  color: #fff;
+  text-align: center;
+  line-height: 20px;
+`;
+
+export const MyName = styled(Text)`
+  font-family: ${theme.fonts.AxiformaRegular};
+  font-size: 15px;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
 `;

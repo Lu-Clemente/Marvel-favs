@@ -8,7 +8,7 @@ import SignUp from "../screens/SignUp/SignUp"
 import Characters from '../screens/Characters/Characters';
 import Movies from '../screens/Movies/Movies';
 import Greetings from '../screens/Greetings';
-
+import Profile from '../screens/Profile';
 
 const Stack = createStackNavigator();
 
@@ -48,7 +48,10 @@ const InitialStackScreen = () => (
             name="Greetings"
             component={Greetings}
         />
-        
+        <Stack.Screen
+            name="Profile"
+            component={Profile}
+        />
     </Stack.Navigator>
 )
 

@@ -7,6 +7,8 @@ import LoginScreen from '../screens/Auth/LoginScreen';
 import SignUp from "../screens/SignUp/SignUp"
 import Characters from '../screens/Characters/Characters';
 import Movies from '../screens/Movies/Movies';
+import Greetings from '../screens/Greetings';
+
 
 const Stack = createStackNavigator();
 
@@ -42,6 +44,11 @@ const InitialStackScreen = () => (
             name="Movies"
             component={Movies}
         />
+        <Stack.Screen
+            name="Greetings"
+            component={Greetings}
+        />
+        
     </Stack.Navigator>
 )
 

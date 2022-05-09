@@ -20,7 +20,7 @@ const BottomBar: React.FC<Props> = ({ style }) => {
     const dispatch = useDispatch();
 
     const handleChangePage = (screen: string) => {
-        navigation.replace(screen)
+        navigation.navigate(screen)
     }
 
     return (

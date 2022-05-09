@@ -2,15 +2,15 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { About, Button, Circle, Heading, PageContainer, TextLogin, Welcome } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faUserCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCancel } from '@fortawesome/free-solid-svg-icons';
 import theme from "../../helpers/theme";
 
-const Greetings = () => {
+const DeleteAccount = () => {
 
     const navigation = useNavigation<any>();
 
-    const handleGoHome = () => {
-        navigation.navigate("Home");
+    const handleGoLogin = () => {
+        navigation.navigate("Login");
     };
 
 
@@ -18,17 +18,17 @@ const Greetings = () => {
         <PageContainer>
 
             <Circle>
-                <FontAwesomeIcon icon={faUserCheck} color={theme.colors.success} size={160} />
+                <FontAwesomeIcon icon={faCancel} color={theme.colors.error} size={160} />
             </Circle>
 
             <Welcome>
-                <Heading>Your registration was successfully completed!</Heading>
+                <Heading>Your account was successfully deleted!</Heading>
                 <About>Find more about this app at: "https://github.com/Lu-Clemente/Marvel-favs"</About>
             </Welcome>
 
-            <Button onPress={handleGoHome}>
+            <Button onPress={handleGoLogin}>
                 <TextLogin>
-                    Let's go
+                    Goodbye
                 </TextLogin>
             </Button>
 
@@ -36,4 +36,4 @@ const Greetings = () => {
     );
 };
 
-export default Greetings;
+export default DeleteAccount;

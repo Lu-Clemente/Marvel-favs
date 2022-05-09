@@ -6,28 +6,26 @@ import {
   Image,
   Alert,
 } from "react-native";
-import { CheckBox } from "react-native-elements";
 import { auth } from "../../services/firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setSessionLogged } from "../../redux/actions";
-import { Box, Button, CheckSpan, Container1, Login, PageContainer, Question, Signup, Span, SubHeading, TextLogin, TextSignup, User, UserInput, Welcome } from "./styles";
+import { Box, Button, CheckSpan, Container1, Disclaimer, Login, MyName, PageContainer, PowerdBy, Question, Signup, Span, SubHeading, TextLogin, TextSignup, User, UserInput, Welcome } from "./styles";
 
 const LoginScreen = () => {
 
   const dispatch = useDispatch();
+  const navigation = useNavigation<any>();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isSelected, setIsSelected] = useState(false);
-
-  const navigation = useNavigation<any>();
+  const [currentUser, setCurrentUser] = useState<any>();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         dispatch<any>(setSessionLogged(true));
-        navigation.replace("Home");
+        navigation.navigate("Home");
       }
     });
 
@@ -35,19 +33,19 @@ const LoginScreen = () => {
   }, []);
 
   const handleResgistration = () => {
-    navigation.replace("SignUp")
+    navigation.navigate("SignUp");
   };
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Logged in with:", user.email);
+        setCurrentUser(userCredentials.user);
+        console.log("Logged in with:", currentUser.email);
       })
       .catch((error) => Alert.alert(error.message));
   };
-  
-  
+
+
   return (
     <KeyboardAvoidingView style={styles.container} enabled={false} behavior="height">
       <PageContainer>
@@ -61,48 +59,48 @@ const LoginScreen = () => {
           />
 
           <Welcome>
-            <SubHeading>Bem-Vindo!</SubHeading>
-            <Login>Fazer login</Login>
+            <SubHeading>Greetings Marvel's fan!</SubHeading>
+            <Login>Please, sign in</Login>
           </Welcome>
 
           <User>
             <UserInput
-              placeholder="E-mail"
+              placeholder="Email"
               value={email}
               onChangeText={(text) => setEmail(text)}
               placeholderTextColor='gray'
             />
             <UserInput
-              placeholder="Senha"
+              placeholder="Password"
               value={password}
               onChangeText={(text) => setPassword(text)}
               secureTextEntry
             />
           </User>
 
+          <Box>
+            <CheckSpan>Forgot password?</CheckSpan>
+          </Box>
+
           <Button onPress={handleLogin}>
             <TextLogin>
-              Entrar
+              Login
             </TextLogin>
           </Button>
 
-          <Box>
-            <CheckBox
-              checked={isSelected}
-              checkedColor='red'
-              onPress={() => setIsSelected(!isSelected)}
-            />
-            <CheckSpan>Lembrar dados de login</CheckSpan>
-          </Box>
-
           <Question>
-            <Span>É novo(a) aqui?</Span>
+            <Span>New here?</Span>
             <Signup onPress={handleResgistration}>
-              <TextSignup>Cadastrar-se</TextSignup>
+              <TextSignup>Sign up</TextSignup>
             </Signup>
           </Question>
 
         </Container1>
+
+        <PowerdBy>
+          <Disclaimer>Note: This app is for portfolio showcase only. And have no connections with Marvel whatsoever.</Disclaimer>
+          <MyName>Powerd by: Luciene Clemente</MyName>
+        </PowerdBy>
 
       </PageContainer>
     </KeyboardAvoidingView>

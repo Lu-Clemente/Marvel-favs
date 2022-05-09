@@ -14,7 +14,7 @@ import { Button, Login, PageContainer, TextLogin, Title, User, UserInput, Welcom
 export type StackParams = {
   MyRoute: undefined;
   AnotherRoute: {
-     id: number
+    id: number
   }
 }
 
@@ -30,7 +30,7 @@ const SignUp = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         dispatch<any>(setSessionLogged(true));
-        navigation.replace("Home");
+        navigation.navigate("Greetings");
       }
     });
     return unsubscribe;
@@ -47,37 +47,37 @@ const SignUp = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-    <PageContainer>
-    
-      
-      <Title>Cadastre-se</Title>
-      
-      <Welcome>
-        <Login>Informe e-mail e crie uma nova senha</Login>
-      </Welcome>
+      <PageContainer>
+
+
+        <Title>Register</Title>
+
+        <Welcome>
+          <Login>Enter an email and create a new password</Login>
+        </Welcome>
 
         <User>
           <UserInput
-            placeholder="E-mail"
+            placeholder="Email"
             value={email}
             onChangeText={(text) => setEmail(text)}
             placeholderTextColor='gray'
           />
           <UserInput
-            placeholder="Senha"
+            placeholder="Password"
             value={password}
             onChangeText={(text) => setPassword(text)}
             secureTextEntry
           />
         </User>
 
-      <Button onPress={handleSignUp}>
-        <TextLogin>
-          Criar
-        </TextLogin>
-      </Button>
+        <Button onPress={handleSignUp}>
+          <TextLogin>
+            Create
+          </TextLogin>
+        </Button>
 
-    </PageContainer>
+      </PageContainer>
     </KeyboardAvoidingView>
   );
 };
@@ -85,10 +85,10 @@ const SignUp = () => {
 export default SignUp;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "#000"
-    },
-  })
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000"
+  },
+})

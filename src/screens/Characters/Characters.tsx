@@ -4,8 +4,10 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Card from "../../components/Cards";
 import { Icon } from 'react-native-elements';
 import { sendGetRequestPages } from '../../services/requests';
-import BottomBar from '../../components/BottomBar';
 import { ArrowWrapper, Back, Container, Page, Scroll } from './styles';
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import BottomBar from '../../components/BottomBar';
 
 export interface IData {
     results: {
@@ -27,7 +29,7 @@ const Characters = () => {
     const scrollViewRef = useRef<ScrollView>();
 
     const handleClick = () => {
-        navigation.replace("Home");
+        navigation.navigate("Home");
     }
 
     const [isActive, setIsActive] = useState(0);
@@ -257,18 +259,12 @@ const Characters = () => {
                             alignSelf: "center"
                         }}
                     >
-                        <Icon
-                            name='arrow-right'
-                            type='font-awesome'
-                            color='#f00'
-                            size={25}
-                            tvParallaxProperties={undefined}
-                        />
+                        <FontAwesomeIcon icon={faChevronRight} color="#f00" size={25} />
                     </TouchableOpacity>
                 </ArrowWrapper>
 
                 <BottomBar />
-
+                
             </Container>
     )
 }

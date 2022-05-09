@@ -2,15 +2,15 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Card from "../../components/Cards";
 import { Icon } from 'react-native-elements';
-import BottomBar from '../../components/BottomBar';
 import { Back, Bullets, Container, Dots, Page, Wrapper } from './styles';
+import BottomBar from '../../components/BottomBar';
 
 const Movies = () => {
 
     const navigation = useNavigation<any>();
 
     const handleClick = () => {
-        navigation.replace("Home");
+        navigation.navigate("Home");
     }
 
     return (
@@ -44,7 +44,9 @@ const Movies = () => {
                 <Bullets />
                 <Bullets />
             </Dots>
+
             <BottomBar />
+
         </Container>
     )
 }

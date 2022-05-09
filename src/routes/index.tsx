@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/Home/HomeScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
@@ -8,7 +8,9 @@ import SignUp from "../screens/SignUp/SignUp"
 import Characters from '../screens/Characters/Characters';
 import Movies from '../screens/Movies/Movies';
 import Greetings from '../screens/Greetings';
-
+import Profile from '../screens/Profile';
+import BottomBar from '../components/BottomBar';
+import DeleteAccount from '../screens/DeleteAccount';
 
 const Stack = createStackNavigator();
 
@@ -48,12 +50,19 @@ const InitialStackScreen = () => (
             name="Greetings"
             component={Greetings}
         />
-        
+        <Stack.Screen
+            name="Profile"
+            component={Profile}
+        />
+        <Stack.Screen
+            name="DeleteAccount"
+            component={DeleteAccount}
+        />
     </Stack.Navigator>
 )
 
 const AppRoutes: React.FC<Props> = ({ onLayoutRootView }) => {
-
+    
     return (
         <NavigationContainer onReady={onLayoutRootView}>
             <InitialStackScreen />

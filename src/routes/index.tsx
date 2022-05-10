@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
-import React, { useEffect } from 'react';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/Home/HomeScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
@@ -9,8 +9,8 @@ import Characters from '../screens/Characters/Characters';
 import Movies from '../screens/Movies/Movies';
 import Greetings from '../screens/Greetings';
 import Profile from '../screens/Profile';
-import BottomBar from '../components/BottomBar';
 import DeleteAccount from '../screens/DeleteAccount';
+import PasswordChange from '../screens/Profile/PasswordChange';
 
 const Stack = createStackNavigator();
 
@@ -57,6 +57,10 @@ const InitialStackScreen = () => (
         <Stack.Screen
             name="DeleteAccount"
             component={DeleteAccount}
+        />
+        <Stack.Screen
+            name="PasswordChange"
+            component={PasswordChange}
         />
     </Stack.Navigator>
 )

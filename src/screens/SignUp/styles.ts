@@ -14,6 +14,13 @@ export const PageContainer = styled(View)`
   align-items: center;
 `;
 
+export const GoBack = styled(TouchableOpacity)`
+  align-self: flex-start;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+`;
+
 export const Welcome = styled(View)`
   display: flex;
   flex-direction: column;
@@ -39,21 +46,38 @@ export const Login = styled(Text)`
 `;
 
 export const User = styled(View)`
-  height: 115px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+  width: 80%;
   justify-content: space-between;
   margin: 30px 0;
+`;
+
+export const EmailField = styled(View)`
+  width: 100%;
+  justify-content: space-between;
+  height: 80px;
+`;
+
+export const PasswordField = styled(View)`
+  width: 100%;
+  justify-content: space-between;
+  height: 140px;
+  margin-top: 10px;
 `;
 
 export const UserInput = styled(TextInput)`
   border-radius: 30px;
   height: 50px;
-  width: 80%;
-  background-color: white;
+  width: 100%;
+  background-color: #fff;
   padding: 0 15px;
-  border: 2px solid red;
+`;
+
+export const WarningText = styled(Text)`
+  font-size: 14px;
+  font-family: ${theme.fonts.AxiformaRegular};
+  align-self: flex-start;
+  color: #f00;
+  padding-left: 10px;
 `;
 
 export const Button = styled(TouchableOpacity)`

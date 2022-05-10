@@ -9,7 +9,9 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { setSessionLogged } from "../../redux/actions";
 import { useDispatch } from "react-redux";
-import { Button, Login, PageContainer, TextLogin, Title, User, UserInput, Welcome } from "./styles";
+import { Button, GoBack, Login, PageContainer, TextLogin, Title, User, UserInput, Welcome, WarningText, PasswordField, EmailField } from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 export type StackParams = {
   MyRoute: undefined;
@@ -25,6 +27,9 @@ const SignUp = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  // const [errorEmail, setErrorEmail] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -36,19 +41,42 @@ const SignUp = () => {
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    if (errorPassword) {
+      if (password !== confirmPassword) {
+        setErrorPassword(false);
+      }
+    }
+  }, [password, confirmPassword])
+
   const handleSignUp = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Registered with:", user.email);
-      })
-      .catch((error) => Alert.alert(error.message));
+    if (!email || !password || !confirmPassword) {
+      Alert.alert('Alert', 'All fields are required.');
+      return;
+    } else if (password !== confirmPassword) {
+      setErrorPassword(true);
+      return;
+    } else {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredentials) => {
+          const user = userCredentials.user;
+          console.log("Registered with:", user.email);
+        })
+        .catch((error) => Alert.alert(error.message));
+    }
+  };
+
+  const handleGoBack = () => {
+    navigation.goBack();
   };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <PageContainer>
 
+        <GoBack onPress={handleGoBack}>
+          <FontAwesomeIcon icon={faChevronLeft} color="#f00" size={20} />
+        </GoBack>
 
         <Title>Register</Title>
 
@@ -57,18 +85,33 @@ const SignUp = () => {
         </Welcome>
 
         <User>
-          <UserInput
-            placeholder="Email"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            placeholderTextColor='gray'
-          />
-          <UserInput
-            placeholder="Password"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            secureTextEntry
-          />
+          <EmailField>
+            <UserInput
+              placeholder="Email"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              placeholderTextColor='gray'
+            />
+          </EmailField>
+
+          <PasswordField>
+            <UserInput
+              placeholder="Password"
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+              secureTextEntry
+            />
+            <UserInput
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChangeText={(text) => setConfirmPassword(text)}
+              secureTextEntry
+            />
+            {
+              errorPassword &&
+              <WarningText>Passwords don't match</WarningText>
+            }
+          </PasswordField>
         </User>
 
         <Button onPress={handleSignUp}>

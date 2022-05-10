@@ -1,5 +1,6 @@
 import {
     Text,
+    TextInput,
     TouchableOpacity,
     View,
 } from "react-native";
@@ -87,4 +88,22 @@ export const DeleteText = styled(Text)`
   font-family: ${theme.fonts.AxiformaLight};
   color: #fff;
   font-size: 16px;
+`;
+
+export const UserPass = styled(View)`
+  height: 115px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 30px 0;
+  margin-bottom: 0;
+`;
+
+export const UserInput = styled(TextInput)`
+  border-radius: 30px;
+  height: 50px;
+  width: 100%;
+  background-color: white;
+  padding: 0 15px;
 `;

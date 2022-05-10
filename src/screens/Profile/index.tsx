@@ -5,13 +5,14 @@ import {
 } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { Back, Container, DeleteAccount, DeleteText, Header, Logout, PaddingView, Page, ProfilePic, UserInfo, UserName } from "./styles";
+import { Back, Container, DeleteAccount, DeleteText, Header, Logout, PaddingView, Page, ProfilePic, UserInfo, UserInput, UserName, UserPass } from "./styles";
 import { auth } from "../../services/firebase/firebase";
 import { signOut, deleteUser } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setSessionLogged } from "../../redux/actions";
 import { Icon } from "react-native-elements";
 import BottomBar from "../../components/BottomBar";
+import { reauthenticateWithCredential, EmailAuthProvider, updatePassword } from "firebase/auth";
 
 const Profile = () => {
 
@@ -21,9 +22,23 @@ const Profile = () => {
     const [currentUserName, setCurrentUserName] = useState<string | null>("");
     const [currentUserEmail, setCurrentUserEmail] = useState<string | null>("");
     const [currentUserUid, setCurrentUserUid] = useState<string | null>("");
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [showModal, setShowModal] = useState(false);
 
-    const handleChangeScreen = () => {
-        navigation.navigate("Home");
+    // useEffect(() => {
+    //     const unsubscribe = auth.onAuthStateChanged((user) => {
+    //         if (user) {
+    //             dispatch<any>(setSessionLogged(true));
+    //             navigation.navigate("Home");
+    //         }
+    //     });
+
+    //     return unsubscribe;
+    // }, []);
+
+    const handleGoBack = () => {
+        navigation.goBack();
     }
 
     const handleSignOut = () => {
@@ -43,9 +58,38 @@ const Profile = () => {
             }).catch((error) => {
                 Alert.alert(error.message)
             }).finally(() =>
-            dispatch<any>(setSessionLogged(false))
-        );
+                dispatch<any>(setSessionLogged(false))
+            );
         }
+    }
+
+    const reauthenticate = () => {
+  
+            if (currentUserEmail && auth.currentUser && currentPassword) {
+
+                const user = auth.currentUser;
+                const cred = EmailAuthProvider.credential(currentUserEmail, currentPassword);
+    
+                return reauthenticateWithCredential(user, cred);
+            }
+    }
+
+    const handleChangePassword = () => {
+        reauthenticate()?.then(() => {
+            const user = auth.currentUser;
+            if (user) {
+                updatePassword(user, newPassword)
+                    .then(() => {
+                        console.log("OK");
+                        setShowModal(false);
+                        navigation.navigate("Profile");
+                    })
+                    .catch((error: any) => console.log(error))
+                    .finally(() => {
+                        navigation.navigate("PasswordChange");
+                    })
+            }
+        }).catch((err: any) => console.log(err));
     }
 
     useEffect(() => {
@@ -67,7 +111,7 @@ const Profile = () => {
                             type='font-awesome'
                             color='#f00'
                             size={25}
-                            onPress={handleChangeScreen}
+                            onPress={handleGoBack}
                             tvParallaxProperties={undefined}
                         />
                         <Icon
@@ -99,7 +143,38 @@ const Profile = () => {
                     </View>
                 </UserInfo>
 
+                {
+                    showModal && (
+                        <>
+                            <UserPass>
+                                <UserInput
+                                    placeholder="Current password"
+                                    value={currentPassword}
+                                    onChangeText={(text) => setCurrentPassword(text)}
+                                    placeholderTextColor='gray'
+                                    secureTextEntry
+                                />
+                                <UserInput
+                                    placeholder="New password"
+                                    value={newPassword}
+                                    onChangeText={(text) => setNewPassword(text)}
+                                    placeholderTextColor='gray'
+                                    secureTextEntry
+                                />
+                            </UserPass>
+
+                            <DeleteAccount onPress={handleChangePassword}>
+                                <DeleteText>Confirm</DeleteText>
+                            </DeleteAccount>
+                        </>
+                    )
+                }
+
             </PaddingView>
+
+            <DeleteAccount onPress={() => setShowModal(true)}>
+                <DeleteText>Change password</DeleteText>
+            </DeleteAccount>
 
             <DeleteAccount onPress={handleDeleteUser}>
                 <DeleteText>Delete account</DeleteText>

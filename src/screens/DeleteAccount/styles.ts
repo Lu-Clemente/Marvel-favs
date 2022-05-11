@@ -61,8 +61,6 @@ export const Circle = styled(View)`
   height: 240px;
   width: 240px;
   border-radius: 120px;
-  border: 6px solid ${theme.colors.error};
   justify-content: center;
   align-items: center;
-  padding-left: 20px;
 `;

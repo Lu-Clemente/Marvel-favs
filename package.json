@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@types/firebase": "^3.2.1",
     "@types/md5": "^2.3.1",
     "@types/node": "^17.0.31",
     "@types/react": "~17.0.21",

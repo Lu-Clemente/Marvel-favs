@@ -1460,6 +1460,17 @@
     "@firebase/util" "1.6.0"
     tslib "^2.1.0"
 
+"@firebase/app-compat@0.1.25":
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/@firebase/app-compat/-/app-compat-0.1.25.tgz#4ba8b9209cd956e31a3418343db4a21016d7673d"
+  integrity sha512-FdCnYwIM3R+OuRE7nrAdVT5oNlvSAHQHN1ictB/gjCFs58lXMCe0DCIRDrA7zxaOFIKeWPtx35ZNXv3EdPFNpQ==
+  dependencies:
+    "@firebase/app" "0.7.24"
+    "@firebase/component" "0.5.14"
+    "@firebase/logger" "0.3.2"
+    "@firebase/util" "1.6.0"
+    tslib "^2.1.0"
+
 "@firebase/app-types@0.7.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@firebase/app-types/-/app-types-0.7.0.tgz#c9e16d1b8bed1a991840b8d2a725fb58d0b5899f"
@@ -1476,12 +1487,36 @@
     idb "7.0.1"
     tslib "^2.1.0"
 
+"@firebase/app@0.7.24":
+  version "0.7.24"
+  resolved "https://registry.yarnpkg.com/@firebase/app/-/app-0.7.24.tgz#bfdfcbf6145d5d1e8e3fcda7a2044a0a510bf476"
+  integrity sha512-HIbAhayEykbCez1Rl6pmzAWbIx63Mc9+t3ngWKqZdkMnBNAAJvYaUdx7Krus7O9XHUKNw/gzBUETAEYt93jusA==
+  dependencies:
+    "@firebase/component" "0.5.14"
+    "@firebase/logger" "0.3.2"
+    "@firebase/util" "1.6.0"
+    idb "7.0.1"
+    tslib "^2.1.0"
+
 "@firebase/auth-compat@0.2.13":
   version "0.2.13"
   resolved "https://registry.yarnpkg.com/@firebase/auth-compat/-/auth-compat-0.2.13.tgz#1caae14d547db7c2216961eac376e3747cb6b591"
   integrity sha512-erJF7+4FXztGGgJtELL+x3g0x3l8+JNvTcnIm3RbecXnq5ZlrPyMMhE0OwEICFBAQi0NLltVQigY/2IWHsHmlA==
   dependencies:
     "@firebase/auth" "0.20.0"
+    "@firebase/auth-types" "0.11.0"
+    "@firebase/component" "0.5.14"
+    "@firebase/util" "1.6.0"
+    node-fetch "2.6.7"
+    selenium-webdriver " 4.1.1"
+    tslib "^2.1.0"
+
+"@firebase/auth-compat@0.2.14":
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/@firebase/auth-compat/-/auth-compat-0.2.14.tgz#ea7dcc38121ce2f2cc9a687830025c8c67d356d8"
+  integrity sha512-1KSNItrTQzky2d0GVCum6d7Hdj9pfNh9aGTN0uJPNk+th9XHBCy0El8Wx5yk0miiyB3h1evWAXdgnIyNs4kTEQ==
+  dependencies:
+    "@firebase/auth" "0.20.1"
     "@firebase/auth-types" "0.11.0"
     "@firebase/component" "0.5.14"
     "@firebase/util" "1.6.0"
@@ -1503,6 +1538,18 @@
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.20.0.tgz#cc3b2ef7a3ed893285b4c4a8cb76defd3236bbcb"
   integrity sha512-OiuNLrnsewxO9IbsUVon++sjezRfGcy+ddvYmNpwOEmqnquF2K6nEePty7mcQ+2CrTyndHTwYyTeP471iAOU+A==
+  dependencies:
+    "@firebase/component" "0.5.14"
+    "@firebase/logger" "0.3.2"
+    "@firebase/util" "1.6.0"
+    node-fetch "2.6.7"
+    selenium-webdriver " 4.1.1"
+    tslib "^2.1.0"
+
+"@firebase/auth@0.20.1":
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.20.1.tgz#a0a4cac5c73f3e496a6444d17ec4e1e63f33233c"
+  integrity sha512-rffEVZOkcQbQG3zcyhgbJFrE3xIDYtaEIIio5/bMCukitIx0n8okKhb0XKXJ/LGO3zZFRwWh4tyU53t6tHB9uQ==
   dependencies:
     "@firebase/component" "0.5.14"
     "@firebase/logger" "0.3.2"
@@ -2251,6 +2298,13 @@
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@sideway/pinpoint/-/pinpoint-2.0.0.tgz#cff8ffadc372ad29fd3f78277aeb29e632cc70df"
   integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
+
+"@types/firebase@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@types/firebase/-/firebase-3.2.1.tgz#17c1c8fee7485ab09668d2461e34540bdf44b3b1"
+  integrity sha512-G8XgHMu2jHlElfc2xVNaYP50F0qrqeTCjgeG1v5b4SRwWG4XKC4fCuEdVZuZaMRmVygcnbRZBAo9O7RsDvmkGQ==
+  dependencies:
+    firebase "*"
 
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
@@ -4081,6 +4135,38 @@ find-yarn-workspace-root@~2.0.0:
   integrity sha512-1IMnbjt4KzsQfnhnzNd8wUEgXZ44IzZaZmnLYx7D5FZlaHt2gW20Cri8Q+E/t5tIj4+epTBub+2Zxu/vNILzqQ==
   dependencies:
     micromatch "^4.0.2"
+
+firebase@*:
+  version "9.8.1"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-9.8.1.tgz#502e186078d69d72ab8d4f1b5befa287e0858276"
+  integrity sha512-VyM+3ijzB1Q24b9v6HzVOB0bXNy0a/maOZlmv2P8M29VXfrS/npo6zntNiOEtcjrCoItZIuWFH4oDGiYkPHxbg==
+  dependencies:
+    "@firebase/analytics" "0.7.9"
+    "@firebase/analytics-compat" "0.1.10"
+    "@firebase/app" "0.7.24"
+    "@firebase/app-check" "0.5.8"
+    "@firebase/app-check-compat" "0.2.8"
+    "@firebase/app-compat" "0.1.25"
+    "@firebase/app-types" "0.7.0"
+    "@firebase/auth" "0.20.1"
+    "@firebase/auth-compat" "0.2.14"
+    "@firebase/database" "0.13.0"
+    "@firebase/database-compat" "0.2.0"
+    "@firebase/firestore" "3.4.9"
+    "@firebase/firestore-compat" "0.1.18"
+    "@firebase/functions" "0.8.1"
+    "@firebase/functions-compat" "0.2.1"
+    "@firebase/installations" "0.5.9"
+    "@firebase/messaging" "0.9.13"
+    "@firebase/messaging-compat" "0.1.13"
+    "@firebase/performance" "0.5.9"
+    "@firebase/performance-compat" "0.1.9"
+    "@firebase/polyfill" "0.3.36"
+    "@firebase/remote-config" "0.3.8"
+    "@firebase/remote-config-compat" "0.1.9"
+    "@firebase/storage" "0.9.6"
+    "@firebase/storage-compat" "0.1.14"
+    "@firebase/util" "1.6.0"
 
 firebase@^9.6.1:
   version "9.8.0"

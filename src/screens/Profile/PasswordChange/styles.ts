@@ -4,7 +4,7 @@ import {
     View,
 } from "react-native";
 import styled from "styled-components";
-import theme from "../../helpers/theme";
+import theme from "../../../helpers/theme";
 
 export const PageContainer = styled(View)`
   height: 100%;
@@ -47,7 +47,7 @@ export const Button = styled(TouchableOpacity)`
   border-radius: 16px;
   justify-content: center;
   align-items: center;
-  border: 2px solid ${theme.colors.error};
+  border: 2px solid ${theme.colors.success};
 `;
 
 export const TextLogin = styled(Text)`

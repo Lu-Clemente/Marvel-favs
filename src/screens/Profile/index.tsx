@@ -1,11 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
-    Alert, View,
+    Alert, TouchableOpacity, View,
 } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { Back, Container, DeleteAccount, DeleteText, Header, Logout, PaddingView, Page, ProfilePic, UserInfo, UserInput, UserName, UserPass } from "./styles";
+import { faChevronDown, faSignOutAlt, faWarning } from '@fortawesome/free-solid-svg-icons';
+import { Back, Buttons, ConfirmButton, Container, DeleteAccount, DeleteText, ErrorText, Header, Logout, PaddingView, Page, PasswordModal, ProfilePic, UserInfo, UserInput, UserName, UserPass, Warning, WarningText } from "./styles";
 import { auth } from "../../services/firebase/firebase";
 import { signOut, deleteUser } from "firebase/auth";
 import { useDispatch } from "react-redux";
@@ -25,17 +25,7 @@ const Profile = () => {
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [showModal, setShowModal] = useState(false);
-
-    // useEffect(() => {
-    //     const unsubscribe = auth.onAuthStateChanged((user) => {
-    //         if (user) {
-    //             dispatch<any>(setSessionLogged(true));
-    //             navigation.navigate("Home");
-    //         }
-    //     });
-
-    //     return unsubscribe;
-    // }, []);
+    const [errorPassword, setErrorPassword] = useState(false);
 
     const handleGoBack = () => {
         navigation.goBack();
@@ -64,14 +54,13 @@ const Profile = () => {
     }
 
     const reauthenticate = () => {
-  
-            if (currentUserEmail && auth.currentUser && currentPassword) {
+        if (currentUserEmail && auth.currentUser && currentPassword) {
 
-                const user = auth.currentUser;
-                const cred = EmailAuthProvider.credential(currentUserEmail, currentPassword);
-    
-                return reauthenticateWithCredential(user, cred);
-            }
+            const user = auth.currentUser;
+            const cred = EmailAuthProvider.credential(currentUserEmail, currentPassword);
+
+            return reauthenticateWithCredential(user, cred);
+        }
     }
 
     const handleChangePassword = () => {
@@ -84,12 +73,17 @@ const Profile = () => {
                         setShowModal(false);
                         navigation.navigate("Profile");
                     })
-                    .catch((error: any) => console.log(error))
+                    .catch((error: any) => {
+                        console.log(error);
+                    })
                     .finally(() => {
                         navigation.navigate("PasswordChange");
                     })
             }
-        }).catch((err: any) => console.log(err));
+        }).catch((err: any) => {
+            console.log(err);
+            setErrorPassword(true);
+        });
     }
 
     useEffect(() => {
@@ -101,7 +95,7 @@ const Profile = () => {
     }, [])
 
     return (
-        <Container>
+        <Container modalOpen={showModal}>
             <PaddingView>
 
                 <Header>
@@ -134,18 +128,46 @@ const Profile = () => {
                     <View>
                         <UserName>
                             {
-                                currentUserName ?
-                                    currentUserName :
-                                    currentUserUid
+                                currentUserName ? currentUserName
+                                    : currentUserUid
                             }
                         </UserName>
                         <UserName>{currentUserEmail}</UserName>
                     </View>
                 </UserInfo>
 
+            </PaddingView>
+
+
+
+            <View>
+                <Buttons>
+                    <ConfirmButton onPress={() => setShowModal(true)}>
+                        <DeleteText>Change password</DeleteText>
+                    </ConfirmButton>
+
+                    <DeleteAccount onPress={handleDeleteUser}>
+                        <DeleteText>Delete account</DeleteText>
+                    </DeleteAccount>
+                </Buttons>
+
                 {
                     showModal && (
-                        <>
+                        <PasswordModal collapsable>
+                            <TouchableOpacity
+                                onPress={() => setShowModal(false)}
+                                style={{ paddingHorizontal: 10, paddingVertical: 5, width: 50 }}
+                            >
+                                <FontAwesomeIcon icon={faChevronDown} color="#f00" size={25} />
+                            </TouchableOpacity>
+
+                            <Warning>
+                                <FontAwesomeIcon icon={faWarning} color="#ffd900" size={50} />
+                                <WarningText>Warning: this operation can't be undone</WarningText>
+                            </Warning>
+
+                            <WarningText style={{ fontSize: 16 }}>Inform your current password and create a new password</WarningText>
+
                             <UserPass>
                                 <UserInput
                                     placeholder="Current password"
@@ -163,24 +185,17 @@ const Profile = () => {
                                 />
                             </UserPass>
 
-                            <DeleteAccount onPress={handleChangePassword}>
+                            {errorPassword && <ErrorText>Incorrect current password</ErrorText>}
+
+                            <ConfirmButton onPress={handleChangePassword}>
                                 <DeleteText>Confirm</DeleteText>
-                            </DeleteAccount>
-                        </>
+                            </ConfirmButton>
+                        </PasswordModal>
                     )
                 }
 
-            </PaddingView>
-
-            <DeleteAccount onPress={() => setShowModal(true)}>
-                <DeleteText>Change password</DeleteText>
-            </DeleteAccount>
-
-            <DeleteAccount onPress={handleDeleteUser}>
-                <DeleteText>Delete account</DeleteText>
-            </DeleteAccount>
-
-            <BottomBar />
+                {!showModal && <BottomBar />}
+            </View>
 
         </Container>
     );

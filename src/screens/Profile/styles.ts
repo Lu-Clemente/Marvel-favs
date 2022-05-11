@@ -3,19 +3,25 @@ import {
     TextInput,
     TouchableOpacity,
     View,
+    KeyboardAvoidingView,
+    SafeAreaView
 } from "react-native";
 import styled from "styled-components";
 import theme from "../../helpers/theme";
+import { Dimensions } from "react-native";
 
-export const Container = styled(View)`
-  height: 100%;
+const { height } = Dimensions.get('screen');
+
+export const Container = styled(View)<{modalOpen : boolean}>`
+  height: ${height - 60}px;
   width: 100%;
-  flex: 1;
+  /* background-color: ${({ modalOpen }) => (modalOpen ? 'rbga(0,0,0,.2)' : '#fff')}; */
   background-color: #000;
+  position: relative;
+  justify-content: space-between;
 `;
 
 export const PaddingView = styled(View)`
-  flex: 1;
   padding: 15px;
 `;
 
@@ -63,7 +69,7 @@ export const ProfilePic = styled(View)`
     margin-right: 15px;
 `;
 
-export const User = styled(View)`
+export const Buttons = styled(View)`
 
 `;
 
@@ -90,14 +96,37 @@ export const DeleteText = styled(Text)`
   font-size: 16px;
 `;
 
+export const PasswordModal = styled(View)`
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  padding: 15px;
+  background-color: #fff;
+  border-top-left-radius: 35px;
+  border-top-right-radius: 35px;
+  height: ${(height * 80 / 100)}px;
+`;
+
+export const Warning = styled(View)`
+  height: 80px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+`;
+
+export const WarningText = styled(Text)`
+  color: #000;
+  font-size: 14px;
+`;
+
 export const UserPass = styled(View)`
   height: 115px;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 30px 0;
-  margin-bottom: 0;
+  margin-top: 15px;
 `;
 
 export const UserInput = styled(TextInput)`
@@ -106,4 +135,22 @@ export const UserInput = styled(TextInput)`
   width: 100%;
   background-color: white;
   padding: 0 15px;
+  border: 2px solid #f00;
+`;
+
+export const ErrorText = styled(Text)`
+  color: ${theme.colors.error};
+  font-size: 14px;
+  padding-left: 10px;
+  margin-top: 10px;
+`;
+
+export const ConfirmButton = styled(TouchableOpacity)`
+  height: 45px;
+  width: 60%;
+  align-items: center;
+  justify-content: center;
+  background-color: #f00;
+  margin: 15px auto;
+  border-radius: 12px;
 `;

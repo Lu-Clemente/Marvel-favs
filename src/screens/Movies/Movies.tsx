@@ -9,8 +9,8 @@ const Movies = () => {
 
     const navigation = useNavigation<any>();
 
-    const handleClick = () => {
-        navigation.navigate("Home");
+    const handleGoBack = () => {
+        navigation.goBack();
     }
 
     return (
@@ -21,7 +21,7 @@ const Movies = () => {
                     type='font-awesome'
                     color='#f00'
                     size={25}
-                    onPress={handleClick}
+                    onPress={handleGoBack}
                     tvParallaxProperties={undefined}
                 />
                 <Icon

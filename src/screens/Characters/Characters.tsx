@@ -28,8 +28,8 @@ const Characters = () => {
     const navigation = useNavigation<any>();
     const scrollViewRef = useRef<ScrollView>();
 
-    const handleClick = () => {
-        navigation.navigate("Home");
+    const handleGoBack = () => {
+        navigation.goBack();
     }
 
     const [isActive, setIsActive] = useState(0);
@@ -210,7 +210,7 @@ const Characters = () => {
                         type='font-awesome'
                         color='#f00'
                         size={25}
-                        onPress={handleClick}
+                        onPress={handleGoBack}
                         tvParallaxProperties={undefined}
                     />
                     <Icon

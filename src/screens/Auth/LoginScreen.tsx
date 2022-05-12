@@ -5,11 +5,12 @@ import {
   StyleSheet,
   Image,
   Alert,
+  TouchableOpacity,
 } from "react-native";
 import { auth } from "../../services/firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { setSessionLogged } from "../../redux/actions";
+import { setLoading, setSessionLogged } from "../../redux/actions";
 import { Box, Button, CheckSpan, Container1, Disclaimer, Login, MyName, PageContainer, PowerdBy, Question, Signup, Span, SubHeading, TextLogin, TextSignup, User, UserInput, Welcome } from "./styles";
 
 const LoginScreen = () => {
@@ -19,12 +20,12 @@ const LoginScreen = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [currentUser, setCurrentUser] = useState<any>();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         dispatch<any>(setSessionLogged(true));
+        dispatch<any>(setLoading(false));
         navigation.navigate("Home");
       }
     });
@@ -36,13 +37,19 @@ const LoginScreen = () => {
     navigation.navigate("SignUp");
   };
 
+  const handleForgotPassword = () => {
+    navigation.navigate("ForgotPassword");
+  }
+
   const handleLogin = () => {
+    dispatch<any>(setLoading(true));
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
-        setCurrentUser(userCredentials.user);
-        console.log("Logged in with:", currentUser.email);
+        console.log("Logged in with:", userCredentials.user.email);
       })
-      .catch((error) => Alert.alert(error.message));
+      .catch((error) => Alert.alert("Login failed", "Incorrect credentials"))
+      .finally(() => dispatch<any>(setLoading(false)))
   };
 
 
@@ -78,7 +85,7 @@ const LoginScreen = () => {
             />
           </User>
 
-          <Box>
+          <Box onPress={handleForgotPassword}>
             <CheckSpan>Forgot password?</CheckSpan>
           </Box>
 

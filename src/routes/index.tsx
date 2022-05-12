@@ -11,6 +11,8 @@ import Greetings from '../screens/Greetings';
 import Profile from '../screens/Profile';
 import DeleteAccount from '../screens/DeleteAccount';
 import PasswordChange from '../screens/Profile/PasswordChange';
+import ForgotPassword from '../screens/ForgotPassword';
+import EmailOrientation from '../screens/EmailOrientation';
 
 const Stack = createStackNavigator();
 
@@ -61,6 +63,14 @@ const InitialStackScreen = () => (
         <Stack.Screen
             name="PasswordChange"
             component={PasswordChange}
+        />
+        <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPassword}
+        />
+        <Stack.Screen
+            name="EmailOrientation"
+            component={EmailOrientation}
         />
     </Stack.Navigator>
 )

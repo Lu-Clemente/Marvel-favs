@@ -64,7 +64,7 @@ const ForgotPassword = () => {
                 </Warning>
 
                 <UserPass>
-                    <WarningText style={{ fontSize: 16, textAlign: "left" }}>Enter you registration email and confirm it</WarningText>
+                    <WarningText style={{ fontSize: 16, textAlign: "left" }}>Enter your registration email and confirm it</WarningText>
 
                     <UserInput
                         placeholder="Email"

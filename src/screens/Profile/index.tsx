@@ -9,10 +9,11 @@ import { Back, Buttons, ConfirmButton, Container, DeleteAccount, DeleteText, Err
 import { auth } from "../../services/firebase/firebase";
 import { signOut, deleteUser } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { setSessionLogged } from "../../redux/actions";
+import { setLoading, setSessionLogged } from "../../redux/actions";
 import { Icon } from "react-native-elements";
 import BottomBar from "../../components/BottomBar";
 import { reauthenticateWithCredential, EmailAuthProvider, updatePassword } from "firebase/auth";
+import theme from "../../helpers/theme";
 
 const Profile = () => {
 
@@ -32,23 +33,31 @@ const Profile = () => {
     }
 
     const handleSignOut = () => {
+
+        dispatch<any>(setLoading(true));
+
         signOut(auth)
             .then(() => {
-                dispatch<any>(setSessionLogged(true));
+                dispatch<any>(setSessionLogged(false));
                 navigation.navigate("Login");
             })
             .catch(error => Alert.alert(error.message))
+            .finally(() => dispatch<any>(setLoading(false)))
     }
 
     const handleDeleteUser = () => {
-        const user = auth.currentUser
+        dispatch<any>(setLoading(true));
+        const user = auth.currentUser;
+
         if (user) {
             deleteUser(user).then(() => {
                 navigation.navigate("DeleteAccount");
             }).catch((error) => {
                 Alert.alert(error.message)
-            }).finally(() =>
-                dispatch<any>(setSessionLogged(false))
+            }).finally(() => {
+                dispatch<any>(setSessionLogged(false));
+                dispatch<any>(setLoading(false));
+            }
             );
         }
     }
@@ -64,6 +73,8 @@ const Profile = () => {
     }
 
     const handleChangePassword = () => {
+        dispatch<any>(setLoading(true));
+
         reauthenticate()?.then(() => {
             const user = auth.currentUser;
             if (user) {
@@ -77,13 +88,17 @@ const Profile = () => {
                         console.log(error);
                     })
                     .finally(() => {
+                        dispatch<any>(setLoading(false));
                         navigation.navigate("PasswordChange");
                     })
             }
         }).catch((err: any) => {
             console.log(err);
             setErrorPassword(true);
-        });
+        })
+            .finally(() => {
+                dispatch<any>(setLoading(false));
+            })
     }
 
     useEffect(() => {
@@ -162,7 +177,7 @@ const Profile = () => {
                             </TouchableOpacity>
 
                             <Warning>
-                                <FontAwesomeIcon icon={faWarning} color="#ffd900" size={50} />
+                                <FontAwesomeIcon icon={faWarning} color={theme.colors.warning} size={50} />
                                 <WarningText>Warning: this operation can't be undone</WarningText>
                             </Warning>
 

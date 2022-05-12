@@ -13,7 +13,6 @@ const Greetings = () => {
         navigation.navigate("Home");
     };
 
-
     return (
         <PageContainer>
 

@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 import { useFonts } from 'expo-font';
 import Entypo from '@expo/vector-icons/Entypo';
 import { Store } from './src/redux/store';
+import Loading from './src/components/Loading';
 
 export default function App() {
 
@@ -63,6 +64,7 @@ export default function App() {
       <SafeAreaProvider>
         <ThemeProvider>
           <AppRoutes onLayoutRootView={onLayoutRootView} />
+          <Loading />
         </ThemeProvider>
       </SafeAreaProvider>
     </Provider >

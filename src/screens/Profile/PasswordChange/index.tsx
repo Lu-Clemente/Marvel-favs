@@ -12,7 +12,6 @@ const PasswordChange = () => {
         navigation.navigate("Profile");
     };
 
-
     return (
         <PageContainer>
 

@@ -7,7 +7,7 @@ import {
 import { auth } from "../../services/firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
-import { setSessionLogged } from "../../redux/actions";
+import { setLoading, setSessionLogged } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import { Button, GoBack, Login, PageContainer, TextLogin, Title, User, UserInput, Welcome, WarningText, PasswordField, EmailField } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -28,7 +28,6 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // const [errorEmail, setErrorEmail] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
 
   useEffect(() => {
@@ -50,11 +49,15 @@ const SignUp = () => {
   }, [password, confirmPassword])
 
   const handleSignUp = () => {
+    dispatch<any>(setLoading(true));
+
     if (!email || !password || !confirmPassword) {
       Alert.alert('Alert', 'All fields are required.');
+      dispatch<any>(setLoading(false));
       return;
     } else if (password !== confirmPassword) {
       setErrorPassword(true);
+      dispatch<any>(setLoading(false));
       return;
     } else {
       createUserWithEmailAndPassword(auth, email, password)
@@ -62,7 +65,8 @@ const SignUp = () => {
           const user = userCredentials.user;
           console.log("Registered with:", user.email);
         })
-        .catch((error) => Alert.alert(error.message));
+        .catch((error) => Alert.alert(error.message))
+        .finally(() => dispatch<any>(setLoading(false)))
     }
   };
 

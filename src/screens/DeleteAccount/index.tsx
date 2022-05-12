@@ -13,7 +13,6 @@ const DeleteAccount = () => {
         navigation.navigate("Login");
     };
 
-
     return (
         <PageContainer>
 

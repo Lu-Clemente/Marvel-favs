@@ -36,6 +36,5 @@ export const ArrowWrapper = styled(View)`
 `;
 
 export const Scroll = styled(ScrollView)`
-    width: 300px;
-    height: 520px;
+    height: 500px;
 `;

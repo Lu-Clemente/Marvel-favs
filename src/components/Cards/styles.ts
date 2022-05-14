@@ -41,7 +41,7 @@ export const Name = styled(Text)`
 `;
 
 export const Bio = styled(Text)`
-    color: white;
+    color: #f00;
     font-size: 14px;
     line-height: 20px;
     text-align: justify;
@@ -73,7 +73,7 @@ export const Wrapper = styled(View)`
     border-radius: 35px;
     align-self: center;
     margin: auto 0;
-    background: red;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -90,7 +90,7 @@ export const Stats = styled(View)`
 `;
 
 export const HeroName = styled(Text)`
-    color: white;
+    color: #f00;
     font-size: 20px;
     text-align: center;
     font-weight: bold;
@@ -100,7 +100,7 @@ export const HeroName = styled(Text)`
 export const Close = styled(TouchableOpacity)`
     width: 100%;
     align-self: center;
-    background-color: #fff;
+    background-color: #f00;
     align-items: center;
     justify-content: center;
     border-bottom-left-radius: 35px;
@@ -109,7 +109,7 @@ export const Close = styled(TouchableOpacity)`
 `;
 
 export const CloseText = styled(Text)`
-    color: #f00;
+    color: #fff;
     font-size: 18px;
     text-align: center;
     font-weight: bold;

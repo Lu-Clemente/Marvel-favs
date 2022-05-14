@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Image, ImageBackground, Dimensions } from 'react-native';
+import { Modal, Image, ImageBackground, Dimensions, ScrollView } from 'react-native';
 import Config from 'react-native-config';
 import { Bio, Box, Close, CloseText, Container, Details, HeroName, ModalDetail, Name, SeeDetails, Stats, Wrapper } from "./styles";
 
@@ -43,13 +43,15 @@ const Card: React.FC<Props> = ({ name, thumbnail, extension, description }) => {
 
                                 <Stats>
                                     <HeroName>{name}</HeroName>
-                                    <Bio>
-                                        {
-                                            description !== '' ?
-                                                description :
-                                                "No character's information..."
-                                        }
-                                    </Bio>
+                                    <ScrollView>
+                                        <Bio>
+                                            {
+                                                description !== '' ?
+                                                    description :
+                                                    "No character's information..."
+                                            }
+                                        </Bio>
+                                    </ScrollView>
                                 </Stats>
 
                                 <Close onPress={handleModal}>

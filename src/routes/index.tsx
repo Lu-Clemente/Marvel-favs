@@ -49,6 +49,9 @@ const InitialStackScreen = () => (
         <Stack.Screen
             name="Characters"
             component={Characters}
+            options={{
+                gestureEnabled: false,
+            }}
         />
         <Stack.Screen
             name="Movies"

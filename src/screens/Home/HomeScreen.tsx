@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react'
-import { Image, Text } from 'react-native';
+import { Alert, BackHandler, Image, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import BottomBar from '../../components/BottomBar';
-import { setLoading } from '../../redux/actions';
+import { setLoading, setTabSelected } from '../../redux/actions';
 import { Btn, Container, Wrapper } from './styles';
 
 
@@ -16,6 +16,14 @@ const HomeScreen = () => {
     dispatch<any>(setLoading(false));
   }, [])
 
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+        dispatch<any>(setTabSelected("Home"));
+    });
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, []);
+
   const handleClickCharacters = () => {
     navigation.navigate("Characters")
   }
@@ -23,6 +31,27 @@ const HomeScreen = () => {
   const handleClickMovies = () => {
     navigation.navigate("Movies")
   }
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to exit the app?", [
+        {
+          text: "No",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "Yes, let me out!", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <Container>

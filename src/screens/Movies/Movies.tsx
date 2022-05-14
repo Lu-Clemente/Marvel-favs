@@ -4,10 +4,21 @@ import Card from "../../components/Cards";
 import { Icon } from 'react-native-elements';
 import { Back, Bullets, Container, Dots, Page, Wrapper } from './styles';
 import BottomBar from '../../components/BottomBar';
+import { useDispatch } from 'react-redux';
+import { setTabSelected } from '../../redux/actions';
 
 const Movies = () => {
 
     const navigation = useNavigation<any>();
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            dispatch<any>(setTabSelected("Movies"));
+        });
+        // Return the function to unsubscribe from the event so it gets removed on unmount
+        return unsubscribe;
+      }, []);
 
     const handleGoBack = () => {
         navigation.goBack();

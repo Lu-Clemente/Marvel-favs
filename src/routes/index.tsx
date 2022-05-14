@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/Home/HomeScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
@@ -31,10 +31,16 @@ const InitialStackScreen = () => (
         <Stack.Screen
             name="Login"
             component={LoginScreen}
+            options={{
+                gestureEnabled: false,
+            }}
         />
         <Stack.Screen
             name="Home"
             component={HomeScreen}
+            options={{
+                gestureEnabled: false,
+            }}
         />
         <Stack.Screen
             name="SignUp"
@@ -51,6 +57,9 @@ const InitialStackScreen = () => (
         <Stack.Screen
             name="Greetings"
             component={Greetings}
+            options={{
+                gestureEnabled: false,
+            }}
         />
         <Stack.Screen
             name="Profile"
@@ -59,6 +68,9 @@ const InitialStackScreen = () => (
         <Stack.Screen
             name="DeleteAccount"
             component={DeleteAccount}
+            options={{
+                gestureEnabled: false,
+            }}
         />
         <Stack.Screen
             name="PasswordChange"
@@ -71,6 +83,9 @@ const InitialStackScreen = () => (
         <Stack.Screen
             name="EmailOrientation"
             component={EmailOrientation}
+            options={{
+                gestureEnabled: false,
+            }}
         />
     </Stack.Navigator>
 )

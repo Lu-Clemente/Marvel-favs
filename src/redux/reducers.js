@@ -1,7 +1,7 @@
 import { SET_TAB_SELECTED, SET_SESSION_LOGGED, SET_LOADING } from './actions';
 
 const initialState = {
-    tabSelected: "home",
+    tabSelected: "Home",
     session_logged: false,
     loading: false
 }

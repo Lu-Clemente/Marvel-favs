@@ -9,7 +9,7 @@ import { Back, Buttons, ConfirmButton, Container, DeleteAccount, DeleteText, Err
 import { auth } from "../../services/firebase/firebase";
 import { signOut, deleteUser } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { setLoading, setSessionLogged } from "../../redux/actions";
+import { setLoading, setSessionLogged, setTabSelected } from "../../redux/actions";
 import { Icon } from "react-native-elements";
 import BottomBar from "../../components/BottomBar";
 import { reauthenticateWithCredential, EmailAuthProvider, updatePassword } from "firebase/auth";
@@ -27,6 +27,14 @@ const Profile = () => {
     const [newPassword, setNewPassword] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            dispatch<any>(setTabSelected("Profile"));
+        });
+        // Return the function to unsubscribe from the event so it gets removed on unmount
+        return unsubscribe;
+      }, []);
 
     const handleGoBack = () => {
         navigation.goBack();

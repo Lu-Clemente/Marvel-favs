@@ -8,6 +8,8 @@ import { ArrowWrapper, Back, Container, Page, Scroll } from './styles';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import BottomBar from '../../components/BottomBar';
+import { useDispatch } from 'react-redux';
+import { setTabSelected } from '../../redux/actions';
 
 export interface IData {
     results: {
@@ -26,11 +28,8 @@ const { width } = Dimensions.get("window");
 const Characters = () => {
 
     const navigation = useNavigation<any>();
+    const dispatch = useDispatch();
     const scrollViewRef = useRef<ScrollView>();
-
-    const handleGoBack = () => {
-        navigation.goBack();
-    }
 
     const [isActive, setIsActive] = useState(0);
     const [list, setList] = useState<IData>();
@@ -40,6 +39,18 @@ const Characters = () => {
     const [requestIndex, setRequestIndex] = useState(0);
     const [count, setCount] = useState(1);
     const [scrollViewWidth, setScrollViewWidth] = useState(0);
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            dispatch<any>(setTabSelected("Characters"));
+        });
+        // Return the function to unsubscribe from the event so it gets removed on unmount
+        return unsubscribe;
+      }, []);
+
+    const handleGoBack = () => {
+        navigation.goBack();
+    }
 
     const handleChange = ({ nativeEvent }: any) => {
         const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);

@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { TouchableOpacity, ScrollView, Dimensions, Alert } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react'
+import { Alert } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Card from "../../components/Cards";
 import { Icon } from 'react-native-elements';
-import { sendGetRequestPages } from '../../services/requests';
-import { ArrowWrapper, Back, Container, Page, Scroll } from './styles';
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { sendGetRequestFilterId } from '../../services/requests';
+import { Back, Container, Page, Scroll } from './styles';
 import BottomBar from '../../components/BottomBar';
 import { useDispatch } from 'react-redux';
-import { setTabSelected } from '../../redux/actions';
+import { setLoading, setTabSelected } from '../../redux/actions';
+import { results } from '../../services/requests/charactersIds';
 
 export interface IData {
     results: {
@@ -23,260 +22,106 @@ export interface IData {
     }[]
 }
 
-const { width } = Dimensions.get("window");
-
 const Characters = () => {
 
     const navigation = useNavigation<any>();
     const dispatch = useDispatch();
-    const scrollViewRef = useRef<ScrollView>();
 
-    const [isActive, setIsActive] = useState(0);
-    const [list, setList] = useState<IData>();
-    const [list2, setList2] = useState<IData>();
-    const [list3, setList3] = useState<IData>();
-    const [currentXOffset, setCurrentXOffset] = useState(0);
-    const [requestIndex, setRequestIndex] = useState(0);
-    const [count, setCount] = useState(1);
-    const [scrollViewWidth, setScrollViewWidth] = useState(0);
+    const [list, setList] = useState<IData[]>([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             dispatch<any>(setTabSelected("Characters"));
         });
         // Return the function to unsubscribe from the event so it gets removed on unmount
         return unsubscribe;
-      }, []);
+    }, []);
+
+    useEffect(() => {
+        results.length !== list?.length
+        ?
+        dispatch<any>(setLoading(true))
+        :
+        dispatch<any>(setLoading(false));
+    }, [list]);
 
     const handleGoBack = () => {
         navigation.goBack();
     }
 
-    const handleChange = ({ nativeEvent }: any) => {
-        const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
-        if (slide != isActive) {
-            setIsActive(isActive);
-        }
-    }
-
-    function getOList(offset: number, limit: number) {
-        sendGetRequestPages('characters', offset, limit).then((response) => {
-            if (response.data.status === 'Ok') {
-                if (requestIndex === 0) {
-                    setList(response.data.data);
-                } else if (requestIndex === 1) {
-                    setList2(response.data.data);
-                } else if (requestIndex === 2) {
-                    setList3(response.data.data);
-                }
-            } else {
-                Alert.alert('Erro', response.data.erro);
-            }
-        }).catch((error) => {
-            if (error?.message === 'Network Error') {
-                Alert.alert('Falha na rede.', 'Verifique sua conexão e tente novamente.');
-            } else {
-                Alert.alert('Erro', 'A requisição falhou');
-            }
-        });
-    }
-
-    const handleNext = () => {
-        switch (requestIndex) {
-            case 0: {
-                getOList(0, 100);
-                break;
-            }
-            case 1: {
-                getOList(100, 100);
-                break;
-            }
-            case 2: {
-                getOList(200, 100);
-                break;
-            }
-            case 3: {
-                getOList(300, 100);
-                break;
-            }
-            case 4: {
-                getOList(400, 100);
-                break;
-            }
-            case 5: {
-                getOList(500, 100);
-                break;
-            }
-            case 6: {
-                getOList(600, 100);
-                break;
-            }
-            case 7: {
-                getOList(700, 100);
-                break;
-            }
-            case 8: {
-                getOList(800, 100);
-                break;
-            }
-            case 9: {
-                getOList(900, 100);
-                break;
-            }
-            case 10: {
-                getOList(1000, 100);
-                break;
-            }
-            case 11: {
-                getOList(1100, 100);
-                break;
-            }
-            case 12: {
-                getOList(1200, 100);
-                break;
-            }
-            case 13: {
-                getOList(1300, 100);
-                break;
-            }
-            case 14: {
-                getOList(1400, 100);
-                break;
-            }
-            case 15: {
-                getOList(1500, 100);
-                break;
-            }
-            case 16: {
-                getOList(1600, 100);
-                break;
-            }
-            default: return 0;
-        }
-        return 0;
-    }
-
     useFocusEffect(
         useCallback(() => {
-            async function getOList(offset: number, limit: number) {
-                sendGetRequestPages('characters', offset, limit).then((response) => {
-                    if (response.data.status === 'Ok') {
-                        setList(response.data.data);
-                    } else {
-                        Alert.alert('Erro', response.data.erro);
-                    }
-                }).catch((error) => {
-                    if (error?.message === 'Network Error') {
-                        Alert.alert('Falha na rede.', 'Verifique sua conexão e tente novamente.');
-                    } else {
-                        Alert.alert('Erro', 'A requisição falhou');
-                    }
-                });
+            async function getOList() {
+
+                results.map((elem) => {
+                    sendGetRequestFilterId('characters', elem.id).then((response) => {
+                        if (response.data.status === 'Ok' && list) {
+                            setList(oldArray => [...oldArray, response.data.data]);
+                        } else {
+                            Alert.alert('Erro', response.data.erro);
+                        }
+                    }).catch((error) => {
+                        dispatch<any>(setLoading(false));
+                        if (error?.message === 'Network Error') {
+                            Alert.alert('Falha na rede.', 'Verifique sua conexão e tente novamente.');
+                        } else {
+                            Alert.alert('Erro', 'A requisição falhou');
+                        }
+                    })
+                })
             }
-            getOList(0, 100);
+            getOList();
         }, [],
         ),
     );
 
-    // useEffect(() => {
-    //     list?.results.map((e) => console.log(e.name))
-    //     list2?.results.map((e) => console.log(e.name))
-    // }, [list?.results, list2?.results])
-
-    const handleScroll = (event: any) => {
-        // console.log('currentXOffset =', event.nativeEvent.contentOffset.x);
-        let newXOffset = event.nativeEvent.contentOffset.x;
-        if (newXOffset > currentXOffset) {
-            setCount(count + 1);
-        } else {
-            setCount(count - 1);
-        }
-        setCurrentXOffset(newXOffset);
-    }
-
-    const handleRequestIndex = () => {
-        setRequestIndex(requestIndex + 1);
-    }
-
-    useEffect(() => {
-        handleNext();
-    }, [requestIndex]);
-
-    const handleFinalScroll = () => {
-        if (currentXOffset >= width * 25 && list2) {
-            scrollViewRef.current?.scrollTo({ x: currentXOffset + 200, animated: true })
-        }
-    }
-
-    useEffect(() => {
-        handleFinalScroll();
-    }, [list2])
-
-
     return (
-            <Container>
-                <Back>
-                    <Icon
-                        name='long-arrow-left'
-                        type='font-awesome'
-                        color='#f00'
-                        size={25}
-                        onPress={handleGoBack}
-                        tvParallaxProperties={undefined}
-                    />
-                    <Icon
-                        name='users'
-                        type='font-awesome'
-                        color='#f00'
-                        size={25}
-                        tvParallaxProperties={undefined}
-                    />
-                    <Page>Characters</Page>
-                </Back>
+        <Container>
+            <Back>
+                <Icon
+                    name='long-arrow-left'
+                    type='font-awesome'
+                    color='#f00'
+                    size={25}
+                    onPress={handleGoBack}
+                    tvParallaxProperties={undefined}
+                />
+                <Icon
+                    name='users'
+                    type='font-awesome'
+                    color='#f00'
+                    size={25}
+                    tvParallaxProperties={undefined}
+                />
+                <Page>Characters</Page>
+            </Back>
 
-                <ArrowWrapper>
-                    <Scroll
-                        horizontal
-                        pagingEnabled
-                        showsHorizontalScrollIndicator={false}
-                        onScroll={handleScroll}
-                        onContentSizeChange={(w, h) => setScrollViewWidth(w)}
-                        contentContainerStyle={{
-                            flexDirection: "column",
-                            flexWrap: "wrap"
-                        }}
-                        ref={scrollViewRef as any}
-                    >
-                        {
-                            list?.results.map((e, index) => (
-                                <Card name={e.name} thumbnail={e.thumbnail?.path} extension={e.thumbnail?.extension} description={e.description} key={index} />
-                            ))
-                        }
-                        {
-                            list2?.results.map((e, index) => (
-                                <Card name={e.name} thumbnail={e.thumbnail?.path} extension={e.thumbnail?.extension} key={index} />
-                            ))
-                        }
-                        {
-                            list3?.results.map((e, index) => (
-                                <Card name={e.name} thumbnail={e.thumbnail?.path} extension={e.thumbnail?.extension} key={index} />
-                            ))
-                        }
-                    </Scroll>
+            <Scroll
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{
+                    flexDirection: "column",
+                    flexWrap: "wrap",
+                    justifyContent: "space-around"
+                }}
+            >
+                {
+                    results.length === list?.length && (
+                        list?.map((e, index) => (
+                            <Card
+                                key={index}
+                                name={e.results[0].name}
+                                thumbnail={e.results[0].thumbnail?.path}
+                                extension={e.results[0].thumbnail?.extension} description={e.results[0].description}
+                            />
+                        ))
+                    )
+                }
+            </Scroll>
 
-                    <TouchableOpacity
-                        onPress={handleRequestIndex}
-                        style={{
-                            alignSelf: "center"
-                        }}
-                    >
-                        <FontAwesomeIcon icon={faChevronRight} color="#f00" size={25} />
-                    </TouchableOpacity>
-                </ArrowWrapper>
+            <BottomBar />
 
-                <BottomBar />
-                
-            </Container>
+        </Container>
     )
 }
 

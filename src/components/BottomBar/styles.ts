@@ -1,18 +1,14 @@
 import {
+    Text,
     TouchableOpacity,
     View,
 } from "react-native";
 import styled from "styled-components";
-
-export const Button = styled(TouchableOpacity)`
-    width: 40px;
-    align-items: center;
-    justify-content: center;
-`;
+import theme from "../../helpers/theme";
 
 export const Nav = styled(View)`
     width: 100%;
-    height: 60px;
+    height: 70px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -22,9 +18,30 @@ export const Nav = styled(View)`
     background-color: #000;
 `;
 
+export const Button = styled(TouchableOpacity)`
+    width: 20%;
+    align-items: center;
+    justify-content: center;
+`;
+
 export const Profile = styled(View)`
-    height: 30px;
-    width: 30px;
-    border-radius: 15px;
-    background-color: #fff;
+    height: 25px;
+    width: 25px;
+    border-radius: 12.5px;
+    background-color: #888;
+`;
+
+export const TabName = styled(Text)`
+    font-family: ${theme.fonts.AxiformaRegular};
+    font-size: 12px;
+    color: #ddd;
+`;
+
+export const TabSelected = styled(View)`
+    height: 5px;
+    width: 15px;
+    background-color: #f00;
+    margin-top: 5px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 `;

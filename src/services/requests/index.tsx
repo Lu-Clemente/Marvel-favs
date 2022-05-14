@@ -18,7 +18,9 @@ const api = axios.create({
     timeout: 10000,
 });
 
-export const sendGetRequestFilter = async (path: string, name: string) => await api.get(`${server}${path}?name=${name}&ts=${ts}&apikey=${config.PUBLIC_KEY}&hash=${hash}`);
+export const sendGetRequestFilterName = async (path: string, name: string) => await api.get(`${server}${path}?name=${name}&ts=${ts}&apikey=${config.PUBLIC_KEY}&hash=${hash}`);
+
+export const sendGetRequestFilterId = async (path: string, id: number) => await api.get(`${server}${path}?id=${id}&ts=${ts}&apikey=${config.PUBLIC_KEY}&hash=${hash}`);
 
 export const sendGetRequest = async (path: string) => await api.get(`${server}${path}?ts=${ts}&apikey=${config.PUBLIC_KEY}&hash=${hash}`);
 

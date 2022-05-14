@@ -10,7 +10,7 @@ import {
 import { auth } from "../../services/firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { setLoading, setSessionLogged } from "../../redux/actions";
+import { setLoading, setSessionLogged, setTabSelected } from "../../redux/actions";
 import { Box, Button, CheckSpan, Container1, Disclaimer, Login, MyName, PageContainer, PowerdBy, Question, Signup, Span, SubHeading, TextLogin, TextSignup, User, UserInput, Welcome } from "./styles";
 
 const LoginScreen = () => {
@@ -26,6 +26,7 @@ const LoginScreen = () => {
       if (user) {
         dispatch<any>(setSessionLogged(true));
         dispatch<any>(setLoading(false));
+        dispatch<any>(setTabSelected("Home"));
         navigation.navigate("Home");
       }
     });

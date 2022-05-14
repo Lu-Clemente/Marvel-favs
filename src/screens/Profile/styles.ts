@@ -13,7 +13,7 @@ import { Dimensions } from "react-native";
 const { height } = Dimensions.get('screen');
 
 export const Container = styled(View)<{modalOpen : boolean}>`
-  height: ${height - 60}px;
+  height: ${height - 70}px;
   width: 100%;
   /* background-color: ${({ modalOpen }) => (modalOpen ? 'rbga(0,0,0,.2)' : '#fff')}; */
   background-color: #000;

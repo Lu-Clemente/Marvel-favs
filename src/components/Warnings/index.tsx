@@ -32,14 +32,15 @@ const Warning: React.FC<Props> = ({
     };
 
     const mainColor = () => {
-        if (color === "error") {
-            return theme.colors.error;
-        } else if (color === "success") {
-            return theme.colors.success;
-        } else if (color === "warning") {
-            return theme.colors.warning;
-        } else {
-            return theme.colors.primary
+        switch (color) {
+            case "error":
+                return theme.colors.error;
+            case "success":
+                return theme.colors.success;
+            case "warning":
+                theme.colors.warning;
+            default:
+                return theme.colors.primary;
         }
     }
 

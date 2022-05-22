@@ -10,7 +10,12 @@ import { auth } from "../../services/firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setLoading, setSessionLogged, setTabSelected } from "../../redux/actions";
-import { Box, CheckSpan, Container1, Disclaimer, Login, MyName, PageContainer, PowerdBy, Question, Signup, Span, SubHeading, TextSignup, User, UserInput, Welcome } from "./styles";
+import { 
+  Box, CheckSpan, Container1, Disclaimer,
+  Login, MyName, PageContainer, PowerdBy,
+  Question, Signup, Span, SubHeading,
+  TextSignup, User, UserInput, Welcome
+} from "./styles";
 import RoundedButton from "../../components/Buttons/Rounded";
 
 const LoginScreen = () => {
@@ -39,7 +44,7 @@ const LoginScreen = () => {
   };
 
   const handleForgotPassword = () => {
-    navigation.navigate("ForgotPassword");
+    navigation.navigate("PasswordChange");
   }
 
   const handleLogin = () => {

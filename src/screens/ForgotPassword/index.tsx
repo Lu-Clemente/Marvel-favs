@@ -1,7 +1,7 @@
-import { faChevronLeft, faUserEdit, faUserShield } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faUserShield } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { Alert, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
@@ -9,7 +9,10 @@ import RoundedButton from "../../components/Buttons/Rounded";
 import theme from "../../helpers/theme";
 import { setLoading } from "../../redux/actions";
 import { auth } from "../../services/firebase/firebase";
-import { ConfirmButton, ConfirmText, Container, ErrorText, UserInput, UserPass, Warning, WarningText, Wrapper } from "./styles";
+import {
+    Container, ErrorText, UserInput, UserPass,
+    Warning, WarningText, Wrapper
+} from "./styles";
 
 const ForgotPassword = () => {
 

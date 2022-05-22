@@ -5,7 +5,13 @@ import {
 } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronDown, faSignOutAlt, faWarning } from '@fortawesome/free-solid-svg-icons';
-import { Back, Buttons, Container, ErrorText, Header, Logout, PaddingView, Page, PasswordModal, ProfilePic, UserInfo, UserInput, UserName, UserPass, Warning, WarningText } from "./styles";
+import { 
+    Back, Buttons, Container, ErrorText,
+    Header, Logout, PaddingView, Page,
+    PasswordModal, ProfilePic, UserInfo,
+    UserInput, UserName, UserPass, Warning,
+    WarningText }
+from "./styles";
 import { auth } from "../../services/firebase/firebase";
 import { signOut, deleteUser } from "firebase/auth";
 import { useDispatch } from "react-redux";
@@ -161,8 +167,6 @@ const Profile = () => {
                 </UserInfo>
 
             </PaddingView>
-
-
 
             <View>
                 <Buttons>

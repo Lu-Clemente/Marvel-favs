@@ -3,7 +3,11 @@ import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
 import theme from "../../../helpers/theme";
-import { About, Button, Circle, Heading, PageContainer, TextLogin, Welcome } from "./styles";
+import {
+    About, Circle, Heading,
+    PageContainer, Welcome
+} from "./styles";
+import BasicButton from "../../../components/Buttons/Basic";
 
 const PasswordChange = () => {
     const navigation = useNavigation<any>();
@@ -24,11 +28,12 @@ const PasswordChange = () => {
                 <About>Find more about this app at: "https://github.com/Lu-Clemente/Marvel-favs"</About>
             </Welcome>
 
-            <Button onPress={handleGoHome}>
-                <TextLogin>
-                    Nice!
-                </TextLogin>
-            </Button>
+            <BasicButton
+                lable="Nice!"
+                themeType={2}
+                color="success"
+                triggerFunction={handleGoHome}
+            />
 
         </PageContainer>
     );

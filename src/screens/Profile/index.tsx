@@ -95,7 +95,6 @@ const Profile = () => {
             if (user) {
                 updatePassword(user, newPassword)
                     .then(() => {
-                        console.log("OK");
                         setShowModal(false);
                         navigation.navigate("Profile");
                     })
@@ -104,6 +103,8 @@ const Profile = () => {
                     })
                     .finally(() => {
                         dispatch<any>(setLoading(false));
+                        setCurrentPassword("");
+                        setNewPassword("");
                         navigation.navigate("PasswordChange");
                     })
             }

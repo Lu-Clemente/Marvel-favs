@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { faMessage } from "@fortawesome/free-solid-svg-icons";
 import { useNavigation } from "@react-navigation/native";
 import BasicButton from "../../components/Buttons/Basic";
 import Warning from "../../components/Warnings";
+import { BackHandler } from "react-native";
 
 const EmailOrientation = () => {
     const navigation = useNavigation<any>();
 
     const handleGoLogin = () => {
         navigation.navigate("Login");
+        return true;
     };
+
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener(
+          "hardwareBackPress",
+          handleGoLogin
+        );
+    
+        return () => backHandler.remove();
+      }, []);
 
     return (
             <Warning

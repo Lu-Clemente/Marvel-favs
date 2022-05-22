@@ -5,7 +5,7 @@ import {
 } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronDown, faSignOutAlt, faWarning } from '@fortawesome/free-solid-svg-icons';
-import { Back, Buttons, ConfirmButton, Container, DeleteAccount, DeleteText, ErrorText, Header, Logout, PaddingView, Page, PasswordModal, ProfilePic, UserInfo, UserInput, UserName, UserPass, Warning, WarningText } from "./styles";
+import { Back, Buttons, Container, ErrorText, Header, Logout, PaddingView, Page, PasswordModal, ProfilePic, UserInfo, UserInput, UserName, UserPass, Warning, WarningText } from "./styles";
 import { auth } from "../../services/firebase/firebase";
 import { signOut, deleteUser } from "firebase/auth";
 import { useDispatch } from "react-redux";
@@ -14,6 +14,7 @@ import { Icon } from "react-native-elements";
 import BottomBar from "../../components/BottomBar";
 import { reauthenticateWithCredential, EmailAuthProvider, updatePassword } from "firebase/auth";
 import theme from "../../helpers/theme";
+import BasicButton from "../../components/Buttons/Basic";
 
 const Profile = () => {
 
@@ -34,7 +35,7 @@ const Profile = () => {
         });
         // Return the function to unsubscribe from the event so it gets removed on unmount
         return unsubscribe;
-      }, []);
+    }, []);
 
     const handleGoBack = () => {
         navigation.goBack();
@@ -165,13 +166,25 @@ const Profile = () => {
 
             <View>
                 <Buttons>
-                    <ConfirmButton onPress={() => setShowModal(true)}>
-                        <DeleteText>Change password</DeleteText>
-                    </ConfirmButton>
+                    <BasicButton
+                        lable="Change password"
+                        triggerFunction={() => setShowModal(true)}
+                        style={{
+                            width: "60%",
+                            marginVertical: 15,
+                        }}
+                    />
 
-                    <DeleteAccount onPress={handleDeleteUser}>
-                        <DeleteText>Delete account</DeleteText>
-                    </DeleteAccount>
+                    <BasicButton
+                        lable="Delete account"
+                        triggerFunction={handleDeleteUser}
+                        themeType={2}
+                        style={{
+                            width: "60%",
+                            marginTop: 15,
+                            marginBottom: 25,
+                        }}
+                    />
                 </Buttons>
 
                 {
@@ -210,9 +223,14 @@ const Profile = () => {
 
                             {errorPassword && <ErrorText>Incorrect current password</ErrorText>}
 
-                            <ConfirmButton onPress={handleChangePassword}>
-                                <DeleteText>Confirm</DeleteText>
-                            </ConfirmButton>
+                            <BasicButton
+                                lable="Confirm"
+                                triggerFunction={handleChangePassword}
+                                style={{
+                                    width: "60%",
+                                    marginVertical: 15,
+                                }}
+                            />
                         </PasswordModal>
                     )
                 }

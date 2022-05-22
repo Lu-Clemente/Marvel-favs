@@ -66,21 +66,6 @@ export const UserInput = styled(TextInput)`
   padding: 0 15px;
 `;
 
-export const Button = styled(TouchableOpacity)`
-  width: 100%;
-  height: 50px;
-  background-color: red;
-  border-radius: 30px;
-`;
-
-export const TextLogin = styled(Text)`
-  color: #fff;
-  text-align: center;
-  margin: auto 0;
-  font-size: 16px;
-  font-family: ${theme.fonts.AxiformaLight};
-`;
-
 export const Box = styled(TouchableOpacity)`
   height: 40px;
   width: 100%;

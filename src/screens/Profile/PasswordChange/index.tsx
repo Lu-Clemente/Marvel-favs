@@ -1,13 +1,8 @@
 import React from "react";
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
-import theme from "../../../helpers/theme";
-import {
-    About, Circle, Heading,
-    PageContainer, Welcome
-} from "./styles";
 import BasicButton from "../../../components/Buttons/Basic";
+import Warning from "../../../components/Warnings";
 
 const PasswordChange = () => {
     const navigation = useNavigation<any>();
@@ -17,25 +12,19 @@ const PasswordChange = () => {
     };
 
     return (
-        <PageContainer>
-
-            <Circle>
-                <FontAwesomeIcon icon={faUserSecret} color={theme.colors.success} size={160} />
-            </Circle>
-
-            <Welcome>
-                <Heading>Your password has successfully been changed!</Heading>
-                <About>Find more about this app at: "https://github.com/Lu-Clemente/Marvel-favs"</About>
-            </Welcome>
-
+        <Warning
+            icon={faUserSecret}
+            iconSize={160}
+            color="success"
+            mainText="Your password has successfully been changed!"
+        >
             <BasicButton
                 lable="Nice!"
                 themeType={2}
                 color="success"
                 triggerFunction={handleGoHome}
             />
-
-        </PageContainer>
+        </Warning>
     );
 }
 

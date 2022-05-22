@@ -1,5 +1,6 @@
 import {
     Text,
+    TouchableOpacity,
     View,
 } from "react-native";
 import styled from "styled-components";
@@ -40,12 +41,12 @@ export const About = styled(Text)`
   line-height: 22px;
 `;
 
-export const Circle = styled(View)`
+export const Circle = styled(View)<{outline: boolean, color: string}>`
   height: 240px;
   width: 240px;
   border-radius: 120px;
-  border: 6px solid ${theme.colors.success};
   justify-content: center;
   align-items: center;
-  padding-left: 20px;
+  border: ${({ outline, color }) => (outline ? `6px solid ${color}` : "")};
+  padding-left: ${({ outline }) => (outline ? 20 : 0)}px;
 `;

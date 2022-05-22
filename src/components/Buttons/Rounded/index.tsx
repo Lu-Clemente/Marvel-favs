@@ -5,7 +5,7 @@ import { Button, TextLogin } from "./styles";
 
 type Props = {
     lable: string;
-    color?: "error" | "success" | "warning";
+    color?: "error" | "success" | "warning" | "primary";
     themeType?: 1 | 2;
     triggerFunction: () => void;
     style?: StyleProp<ViewStyle>;

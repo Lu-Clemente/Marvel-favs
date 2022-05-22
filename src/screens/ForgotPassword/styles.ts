@@ -10,6 +10,7 @@ import theme from "../../helpers/theme";
 export const Container = styled(View)`
   height: 100%;
   width: 100%;
+  padding: 0 10%;
   background-color: #000;
   justify-content: space-between;
 `;
@@ -54,21 +55,4 @@ export const ErrorText = styled(Text)`
   font-size: 14px;
   padding: 0 15px;
   padding-left: 25px;
-`;
-
-export const ConfirmButton = styled(TouchableOpacity)`
-  height: 45px;
-  width: 60%;
-  align-items: center;
-  justify-content: center;
-  margin: 15px auto;
-  margin-bottom: 35px;
-  border-radius: 12px;
-  border: 2px solid ${theme.colors.warning};
-`;
-
-export const ConfirmText = styled(Text)`
-  font-family: ${theme.fonts.AxiformaLight};
-  color: #fff;
-  font-size: 16px;
 `;

@@ -79,23 +79,6 @@ export const UserName = styled(Text)`
   font-family: ${theme.fonts.AxiformaRegular};
 `;
 
-export const DeleteAccount = styled(TouchableOpacity)`
-  height: 45px;
-  width: 60%;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid ${theme.colors.error};
-  margin: 15px auto;
-  margin-bottom: 25px;
-  border-radius: 12px;
-`;
-
-export const DeleteText = styled(Text)`
-  font-family: ${theme.fonts.AxiformaLight};
-  color: #fff;
-  font-size: 16px;
-`;
-
 export const PasswordModal = styled(View)`
   position: absolute;
   width: 100%;
@@ -143,14 +126,4 @@ export const ErrorText = styled(Text)`
   font-size: 14px;
   padding-left: 10px;
   margin-top: 10px;
-`;
-
-export const ConfirmButton = styled(TouchableOpacity)`
-  height: 45px;
-  width: 60%;
-  align-items: center;
-  justify-content: center;
-  background-color: #f00;
-  margin: 15px auto;
-  border-radius: 12px;
 `;

@@ -2,8 +2,9 @@ import React from "react";
 import { faMessage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
-import { About, Button, Circle, Heading, PageContainer, TextLogin, Welcome } from "./styles";
+import { About, Circle, Heading, PageContainer, Welcome } from "./styles";
 import theme from "../../helpers/theme";
+import BasicButton from "../../components/Buttons/Basic";
 
 const EmailOrientation = () => {
     const navigation = useNavigation<any>();
@@ -24,11 +25,12 @@ const EmailOrientation = () => {
                 <About>Find more about this app at: "https://github.com/Lu-Clemente/Marvel-favs"</About>
             </Welcome>
 
-            <Button onPress={handleGoLogin}>
-                <TextLogin>
-                    Nice!
-                </TextLogin>
-            </Button>
+            <BasicButton
+                lable="Nice!"
+                themeType={2}
+                color="success"
+                triggerFunction={handleGoLogin}
+            />
 
         </PageContainer>
     );

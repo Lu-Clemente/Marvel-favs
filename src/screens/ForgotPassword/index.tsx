@@ -1,14 +1,18 @@
-import { faChevronLeft, faUserEdit, faUserShield } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faUserShield } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { Alert, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
+import RoundedButton from "../../components/Buttons/Rounded";
 import theme from "../../helpers/theme";
 import { setLoading } from "../../redux/actions";
 import { auth } from "../../services/firebase/firebase";
-import { ConfirmButton, ConfirmText, Container, ErrorText, UserInput, UserPass, Warning, WarningText, Wrapper } from "./styles";
+import {
+    Container, ErrorText, UserInput, UserPass,
+    Warning, WarningText, Wrapper
+} from "./styles";
 
 const ForgotPassword = () => {
 
@@ -53,7 +57,12 @@ const ForgotPassword = () => {
             <Wrapper>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
-                    style={{ paddingHorizontal: 10, paddingVertical: 20, width: 50 }}
+                    style={{
+                        paddingHorizontal: 10,
+                        paddingVertical: 20,
+                        width: 50,
+                        marginLeft: "-10%"
+                    }}
                 >
                     <FontAwesomeIcon icon={faChevronLeft} color={theme.colors.warning} size={25} />
                 </TouchableOpacity>
@@ -84,9 +93,22 @@ const ForgotPassword = () => {
                 {errorRequired && <ErrorText>All fields are required</ErrorText>}
             </Wrapper>
 
-            <ConfirmButton onPress={handleSendEmail}>
+            {/* <ConfirmButton onPress={handleSendEmail}>
                 <ConfirmText>Confirm</ConfirmText>
-            </ConfirmButton>
+            </ConfirmButton> */}
+
+            <RoundedButton
+                lable="Confirm"
+                themeType={2}
+                color="warning"
+                triggerFunction={handleSendEmail}
+                style={{
+                    marginTop: 15,
+                    marginBottom: 35,
+                    width: "90%",
+                    alignSelf: "center"
+                }}
+            />
         </Container>
     );
 }

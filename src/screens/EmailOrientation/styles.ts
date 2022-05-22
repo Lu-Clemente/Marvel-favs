@@ -1,6 +1,5 @@
 import {
     Text,
-    TouchableOpacity,
     View,
 } from "react-native";
 import styled from "styled-components";
@@ -39,22 +38,6 @@ export const About = styled(Text)`
   font-family: ${theme.fonts.AxiformaLight};
   color: #fff;
   line-height: 22px;
-`;
-
-export const Button = styled(TouchableOpacity)`
-  width: 170px;
-  height: 50px;
-  border-radius: 16px;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid ${theme.colors.success};
-`;
-
-export const TextLogin = styled(Text)`
-  text-align: center;
-  font-size: 18px;
-  font-family: ${theme.fonts.AxiformaLight};
-  color: #fff;
 `;
 
 export const Circle = styled(View)`

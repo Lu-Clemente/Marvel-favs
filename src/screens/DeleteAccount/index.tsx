@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { About, Button, Circle, Heading, PageContainer, TextLogin, Welcome } from "./styles";
+import { About, Circle, Heading, PageContainer, Welcome } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCancel } from '@fortawesome/free-solid-svg-icons';
 import theme from "../../helpers/theme";
+import BasicButton from "../../components/Buttons/Basic";
 
 const DeleteAccount = () => {
 
@@ -25,11 +26,11 @@ const DeleteAccount = () => {
                 <About>Find more about this app at: "https://github.com/Lu-Clemente/Marvel-favs"</About>
             </Welcome>
 
-            <Button onPress={handleGoLogin}>
-                <TextLogin>
-                    Goodbye
-                </TextLogin>
-            </Button>
+            <BasicButton
+                lable="Goodbye"
+                themeType={2}
+                triggerFunction={handleGoLogin}
+            />
 
         </PageContainer>
     );

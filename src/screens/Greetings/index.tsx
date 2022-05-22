@@ -1,10 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { About, Circle, Heading, PageContainer, Welcome } from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUserCheck } from '@fortawesome/free-solid-svg-icons';
-import theme from "../../helpers/theme";
 import BasicButton from "../../components/Buttons/Basic";
+import Warning from "../../components/Warnings";
 
 const Greetings = () => {
 
@@ -15,25 +13,20 @@ const Greetings = () => {
     };
 
     return (
-        <PageContainer>
-
-            <Circle>
-                <FontAwesomeIcon icon={faUserCheck} color={theme.colors.success} size={160} />
-            </Circle>
-
-            <Welcome>
-                <Heading>Your registration was successfully completed!</Heading>
-                <About>Find more about this app at: "https://github.com/Lu-Clemente/Marvel-favs"</About>
-            </Welcome>
-
+        <Warning
+            icon={faUserCheck}
+            iconSize={140}
+            color="success"
+            mainText="Your registration was successfully completed!"
+            outline
+        >
             <BasicButton
                 lable="Let's go"
                 themeType={2}
                 color="success"
                 triggerFunction={handleGoHome}
             />
-
-        </PageContainer>
+        </Warning>
     );
 };
 

@@ -93,10 +93,6 @@ const ForgotPassword = () => {
                 {errorRequired && <ErrorText>All fields are required</ErrorText>}
             </Wrapper>
 
-            {/* <ConfirmButton onPress={handleSendEmail}>
-                <ConfirmText>Confirm</ConfirmText>
-            </ConfirmButton> */}
-
             <RoundedButton
                 lable="Confirm"
                 themeType={2}

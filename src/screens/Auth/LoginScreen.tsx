@@ -44,7 +44,7 @@ const LoginScreen = () => {
   };
 
   const handleForgotPassword = () => {
-    navigation.navigate("PasswordChange");
+    navigation.navigate("ForgotPassword");
   }
 
   const handleLogin = () => {

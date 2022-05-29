@@ -30,15 +30,15 @@
 
 1. Clone this repository to your local machine:
 
-`$ git clone https://github.com/Lu-Clemente/Marvel-World`
+`$ git clone https://github.com/Lu-Clemente/Marvel-favs`
 
 2. In the terminal, navigate to this repository's folder:
 
-`$ cd Marvel-World`
+`$ cd Marvel-favs`
 
 3. Install the project:
 
-`$ yarn install` ou `$ npm install`
+`$ yarn install` or `$ npm install`
 
 4. Run the project:
 

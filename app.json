@@ -4,6 +4,11 @@
     "slug": "marvel-favs",
     "version": "1.0.0",
     "orientation": "portrait",
+    "androidStatusBar": {
+      "translucent": false,
+      "barStyle": "light-content",
+      "backgroundColor": "#000000"
+    },
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -21,10 +26,7 @@
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "icon": "./assets/icon.png"
     },
     "web": {
       "favicon": "./assets/favicon.png"

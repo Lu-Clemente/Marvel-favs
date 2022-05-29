@@ -20,8 +20,13 @@
     - [Documentação](https://docs.expo.dev/versions/latest/)
 - Axios
     - [Documentação](https://axios-http.com/docs/intro)
+    - Http client for NodeJs and browsers.
 - Redux
     - [Documentação](https://redux.js.org/introduction/getting-started)
+    - Application's state management.
+- Reactotron
+    - [Documentação](https://github.com/infinitered/reactotron)
+    - It's a app for inspecting the application itself. Providing informations about API requests and responses, app's states, track Async Storage and other more handy informations.
 - Git/Gitflow
     - [Documentação](https://git-scm.com/doc)
     - This project follows the "Gitflow" metodology. That allows the project to have better commits, optimized organization and improving maintenance process and code reviews, if it's the case.

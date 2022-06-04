@@ -5,13 +5,14 @@ import {
 } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronDown, faSignOutAlt, faWarning } from '@fortawesome/free-solid-svg-icons';
-import { 
+import {
     Back, Buttons, Container, ErrorText,
     Header, Logout, PaddingView, Page,
     PasswordModal, ProfilePic, UserInfo,
     UserInput, UserName, UserPass, Warning,
-    WarningText }
-from "./styles";
+    WarningText
+}
+    from "./styles";
 import { auth } from "../../services/firebase/firebase";
 import { signOut, deleteUser } from "firebase/auth";
 import { useDispatch } from "react-redux";
@@ -60,23 +61,6 @@ const Profile = () => {
             .finally(() => dispatch<any>(setLoading(false)))
     }
 
-    const handleDeleteUser = () => {
-        dispatch<any>(setLoading(true));
-        const user = auth.currentUser;
-
-        if (user) {
-            deleteUser(user).then(() => {
-                navigation.navigate("DeleteAccount");
-            }).catch((error) => {
-                Alert.alert(error.message)
-            }).finally(() => {
-                dispatch<any>(setSessionLogged(false));
-                dispatch<any>(setLoading(false));
-            }
-            );
-        }
-    }
-
     const reauthenticate = () => {
         if (currentUserEmail && auth.currentUser && currentPassword) {
 
@@ -85,6 +69,38 @@ const Profile = () => {
 
             return reauthenticateWithCredential(user, cred);
         }
+    }
+
+    const deleteThisUser = () => {
+
+        dispatch<any>(setLoading(true));
+
+        const user = auth.currentUser;
+        if (user) {
+            deleteUser(user).then(() => {
+                navigation.navigate("DeleteAccount");
+                dispatch<any>(setSessionLogged(false));
+            }).catch((error) => {
+                Alert.alert("Error", error.message)
+            }).finally(() => {
+                dispatch<any>(setLoading(false));
+            });
+        }
+    }
+
+    const handleDeleteUser = () => {
+        Alert.alert(
+            "We don't want you to leave",
+            "Are you sure you want to delete you account?",
+            [
+                {
+                    text: "No, I'll stay",
+                    onPress: () => null,
+                    style: "cancel"
+                },
+                { text: "Yes, I better go!", onPress: () => deleteThisUser() }
+            ]);
+        return;
     }
 
     const handleChangePassword = () => {
@@ -111,10 +127,9 @@ const Profile = () => {
         }).catch((err: any) => {
             console.log(err);
             setErrorPassword(true);
+        }).finally(() => {
+            dispatch<any>(setLoading(false));
         })
-            .finally(() => {
-                dispatch<any>(setLoading(false));
-            })
     }
 
     useEffect(() => {

@@ -39,10 +39,10 @@ const Characters = () => {
 
     useEffect(() => {
         results.length !== list?.length
-        ?
-        dispatch<any>(setLoading(true))
-        :
-        dispatch<any>(setLoading(false));
+            ?
+            dispatch<any>(setLoading(true))
+            :
+            dispatch<any>(setLoading(false));
     }, [list]);
 
     const handleGoBack = () => {
@@ -61,16 +61,16 @@ const Characters = () => {
                             Alert.alert('Erro', response.data.erro);
                         }
                     })
-                    .catch((error) => {
-                        if (error?.message === 'Network Error') {
-                            Alert.alert('Network Error', 'Try again later');
-                        } else {
-                            Alert.alert('Error', 'Request failure');
-                        }
-                    })
-                    .finally(() => {
-                        dispatch<any>(setLoading(false));
-                    })
+                        .catch((error) => {
+                            if (error?.message === 'Network Error') {
+                                Alert.alert('Network Error', 'Try again later');
+                            } else {
+                                Alert.alert('Error', 'Request failure');
+                            }
+                        })
+                        .finally(() => {
+                            dispatch<any>(setLoading(false));
+                        })
                 })
             }
             getOList();

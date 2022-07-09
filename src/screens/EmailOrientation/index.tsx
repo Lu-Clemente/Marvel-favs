@@ -15,15 +15,15 @@ const EmailOrientation = () => {
 
     useEffect(() => {
         const backHandler = BackHandler.addEventListener(
-          "hardwareBackPress",
-          handleGoLogin
+            "hardwareBackPress",
+            handleGoLogin
         );
-    
+
         return () => backHandler.remove();
-      }, []);
+    }, []);
 
     return (
-            <Warning
+        <Warning
             icon={faMessage}
             iconSize={160}
             color="success"

@@ -19,14 +19,16 @@ import { useDispatch } from "react-redux";
 import { setLoading, setSessionLogged, setTabSelected } from "../../redux/actions";
 import { Icon } from "react-native-elements";
 import BottomBar from "../../components/BottomBar";
-import { reauthenticateWithCredential, EmailAuthProvider, updatePassword } from "firebase/auth";
+import { updatePassword } from "firebase/auth";
 import theme from "../../helpers/theme";
 import BasicButton from "../../components/Buttons/Basic";
+import { useAuthUser } from "../../hooks/providers/useAuthUser";
 
 const Profile = () => {
 
     const navigation = useNavigation<any>();
     const dispatch = useDispatch();
+    const { getReauthenticate, getUserDeleted, getSignOut } = useAuthUser();
 
     const [currentUserName, setCurrentUserName] = useState<string | null>("");
     const [currentUserEmail, setCurrentUserEmail] = useState<string | null>("");
@@ -38,54 +40,26 @@ const Profile = () => {
 
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            dispatch<any>(setTabSelected("Profile"));
+            dispatch(setTabSelected("Profile"));
         });
         // Return the function to unsubscribe from the event so it gets removed on unmount
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+        if (auth.currentUser && auth.currentUser !== undefined) {
+            setCurrentUserName(auth.currentUser.displayName);
+            setCurrentUserEmail(auth.currentUser.email);
+            setCurrentUserUid(auth.currentUser.uid);
+        }
+    }, [])
 
     const handleGoBack = () => {
         navigation.goBack();
     }
 
     const handleSignOut = () => {
-
-        dispatch<any>(setLoading(true));
-
-        signOut(auth)
-            .then(() => {
-                dispatch<any>(setSessionLogged(false));
-                navigation.navigate("Login");
-            })
-            .catch(error => Alert.alert(error.message))
-            .finally(() => dispatch<any>(setLoading(false)))
-    }
-
-    const reauthenticate = () => {
-        if (currentUserEmail && auth.currentUser && currentPassword) {
-
-            const user = auth.currentUser;
-            const cred = EmailAuthProvider.credential(currentUserEmail, currentPassword);
-
-            return reauthenticateWithCredential(user, cred);
-        }
-    }
-
-    const deleteThisUser = () => {
-
-        dispatch<any>(setLoading(true));
-
-        const user = auth.currentUser;
-        if (user) {
-            deleteUser(user).then(() => {
-                navigation.navigate("DeleteAccount");
-                dispatch<any>(setSessionLogged(false));
-            }).catch((error) => {
-                Alert.alert("Error", error.message)
-            }).finally(() => {
-                dispatch<any>(setLoading(false));
-            });
-        }
+        getSignOut(navigation);
     }
 
     const handleDeleteUser = () => {
@@ -98,15 +72,15 @@ const Profile = () => {
                     onPress: () => null,
                     style: "cancel"
                 },
-                { text: "Yes, I better go!", onPress: () => deleteThisUser() }
+                { text: "Yes, I better go!", onPress: () => getUserDeleted(navigation) }
             ]);
         return;
     }
 
     const handleChangePassword = () => {
-        dispatch<any>(setLoading(true));
+        dispatch(setLoading(true));
 
-        reauthenticate()?.then(() => {
+        getReauthenticate(currentUserEmail || '', currentPassword)?.then(() => {
             const user = auth.currentUser;
             if (user) {
                 updatePassword(user, newPassword)
@@ -114,11 +88,15 @@ const Profile = () => {
                         setShowModal(false);
                         navigation.navigate("Profile");
                     })
-                    .catch((error: any) => {
-                        console.log(error);
+                    .catch((error) => {
+                        if (error?.message === 'Network Error') {
+                            Alert.alert('Network Error', 'Try again later');
+                        } else {
+                            Alert.alert('Error', 'Request failure');
+                        }
                     })
                     .finally(() => {
-                        dispatch<any>(setLoading(false));
+                        dispatch(setLoading(false));
                         setCurrentPassword("");
                         setNewPassword("");
                         navigation.navigate("PasswordChange");
@@ -128,17 +106,11 @@ const Profile = () => {
             console.log(err);
             setErrorPassword(true);
         }).finally(() => {
-            dispatch<any>(setLoading(false));
+            dispatch(setLoading(false));
         })
     }
 
-    useEffect(() => {
-        if (auth.currentUser && auth.currentUser !== undefined) {
-            setCurrentUserName(auth.currentUser.displayName);
-            setCurrentUserEmail(auth.currentUser.email);
-            setCurrentUserUid(auth.currentUser.uid);
-        }
-    }, [])
+    
 
     return (
         <Container modalOpen={showModal}>

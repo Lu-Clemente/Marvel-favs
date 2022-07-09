@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
-  StyleSheet,
-  Alert,
+  StyleSheet, Alert,
 } from "react-native";
 import { auth } from "../../services/firebase/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { setLoading, setSessionLogged } from "../../redux/actions";
 import { useDispatch } from "react-redux";
-import { Button, GoBack, Login, PageContainer, TextLogin, Title, User, UserInput, Welcome, WarningText, PasswordField, EmailField } from "./styles";
+import {
+  Button, GoBack, Login, PageContainer,
+  TextLogin, Title, User, UserInput,
+  Welcome, WarningText, PasswordField,
+  EmailField
+} from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { addDoc } from "firebase/firestore";
+import { usersCollection } from "../../services/firebase/firestore";
+import { useAuthUser } from "../../hooks/providers/useAuthUser";
+import { useUid } from "../../hooks/providers/useUid";
 
 export type StackParams = {
   MyRoute: undefined;
@@ -24,6 +31,8 @@ const SignUp = () => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation<any>();
+  const { getCreateUser } = useAuthUser();
+  const { getUserData } = useUid();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +42,7 @@ const SignUp = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        dispatch<any>(setSessionLogged(true));
+        dispatch(setSessionLogged(true));
         navigation.navigate("Greetings");
       }
     });
@@ -46,27 +55,39 @@ const SignUp = () => {
         setErrorPassword(false);
       }
     }
-  }, [password, confirmPassword])
+  }, [password, confirmPassword]);
+
+  const addUserDB = async (email: string) => {
+    addDoc(usersCollection, {
+      email,
+      name: "Marvel's Fan",
+      avatar: "",
+      favorites: []
+    })
+      .then((docRef) => {
+        getUserData(docRef.id);
+      })
+      .catch((err) => {
+        console.error("Error adding document: ", err);
+      })
+      .finally(() => {
+        dispatch(setLoading(false))
+      });
+  }
 
   const handleSignUp = () => {
-    dispatch<any>(setLoading(true));
+    dispatch(setLoading(true));
 
     if (!email || !password || !confirmPassword) {
       Alert.alert('Alert', 'All fields are required.');
-      dispatch<any>(setLoading(false));
+      dispatch(setLoading(false));
       return;
     } else if (password !== confirmPassword) {
       setErrorPassword(true);
-      dispatch<any>(setLoading(false));
+      dispatch(setLoading(false));
       return;
     } else {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredentials) => {
-          const user = userCredentials.user;
-          console.log("Registered with:", user.email);
-        })
-        .catch((error) => Alert.alert(error.message))
-        .finally(() => dispatch<any>(setLoading(false)))
+      getCreateUser(email, password, addUserDB)
     }
   };
 

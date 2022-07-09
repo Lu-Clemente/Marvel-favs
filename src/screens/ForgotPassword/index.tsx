@@ -1,14 +1,11 @@
 import { faChevronLeft, faUserShield } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useNavigation } from "@react-navigation/native";
-import { sendPasswordResetEmail } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { Alert, TouchableOpacity } from "react-native";
-import { useDispatch } from "react-redux";
+import { TouchableOpacity } from "react-native";
 import RoundedButton from "../../components/Buttons/Rounded";
 import theme from "../../helpers/theme";
-import { setLoading } from "../../redux/actions";
-import { auth } from "../../services/firebase/firebase";
+import { useAuthUser } from "../../hooks/providers/useAuthUser";
 import {
     Container, ErrorText, UserInput, UserPass,
     Warning, WarningText, Wrapper
@@ -17,7 +14,7 @@ import {
 const ForgotPassword = () => {
 
     const navigation = useNavigation<any>();
-    const dispatch = useDispatch();
+    const { getForgetPassword } = useAuthUser();
 
     const [confirmEmail, setConfirmEmail] = useState("");
     const [email, setEmail] = useState("");
@@ -39,16 +36,7 @@ const ForgotPassword = () => {
         } else if (email !== confirmEmail) {
             setErrorEmail(true);
         } else {
-            dispatch<any>(setLoading(true));
-
-            sendPasswordResetEmail(auth, confirmEmail)
-                .then(() => {
-                    navigation.navigate("EmailOrientation");
-                })
-                .catch((error) => {
-                    Alert.alert('Failed', 'Invalid email.')
-                })
-                .finally(() => dispatch<any>(setLoading(false)));
+            getForgetPassword(confirmEmail, navigation);
         }
     }
 

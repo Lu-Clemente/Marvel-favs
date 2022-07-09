@@ -60,13 +60,16 @@ const Characters = () => {
                         } else {
                             Alert.alert('Erro', response.data.erro);
                         }
-                    }).catch((error) => {
-                        dispatch<any>(setLoading(false));
+                    })
+                    .catch((error) => {
                         if (error?.message === 'Network Error') {
-                            Alert.alert('Falha na rede.', 'Verifique sua conexão e tente novamente.');
+                            Alert.alert('Network Error', 'Try again later');
                         } else {
-                            Alert.alert('Erro', 'A requisição falhou');
+                            Alert.alert('Error', 'Request failure');
                         }
+                    })
+                    .finally(() => {
+                        dispatch<any>(setLoading(false));
                     })
                 })
             }

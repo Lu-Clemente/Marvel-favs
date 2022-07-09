@@ -27,8 +27,14 @@ const Greetings = () => {
                 dispatch<any>(setSessionLogged(false));
                 navigation.navigate("Login");
             })
-            .catch(error => Alert.alert(error.message))
-            .finally(() => dispatch<any>(setLoading(false)))
+            .catch((error) => {
+              if (error?.message === 'Network Error') {
+                  Alert.alert('Network Error', 'Try again later');
+              } else {
+                  Alert.alert('Error', 'Request failure');
+              }
+          })
+            .finally(() => dispatch(setLoading(false)))
     }
 
     useEffect(() => {

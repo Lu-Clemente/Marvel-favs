@@ -1,14 +1,9 @@
-import firebase from 'firebase/app';
-import 'firebase/database';
-import 'firebase/firestore';
-
-import { getFirestore } from "firebase/firestore"
-// const db = getFirestore();
-
-// export default db;
-// const firestoreConfig = {}
+import { collection, getFirestore } from "firebase/firestore"
+import { app } from "./firebase";
 
 // // Initialize Cloud Firestore through Firebase
 // const firestore = firebase.firestore();
+const db = getFirestore(app);
+const usersCollection = collection(db, "users");
 
-// export { firestore }
+export {db, usersCollection};

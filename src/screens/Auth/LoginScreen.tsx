@@ -4,10 +4,8 @@ import {
   KeyboardAvoidingView,
   StyleSheet,
   Image,
-  Alert,
 } from "react-native";
 import { auth } from "../../services/firebase/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setLoading, setSessionLogged, setTabSelected } from "../../redux/actions";
 import { 
@@ -17,11 +15,15 @@ import {
   TextSignup, User, UserInput, Welcome
 } from "./styles";
 import RoundedButton from "../../components/Buttons/Rounded";
+import { useUid } from "../../hooks/providers/useUid";
+import { useAuthUser } from "../../hooks/providers/useAuthUser";
 
 const LoginScreen = () => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation<any>();
+  const { getUserData } = useUid();
+  const { getSignIn } = useAuthUser();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,16 +50,8 @@ const LoginScreen = () => {
   }
 
   const handleLogin = () => {
-    dispatch<any>(setLoading(true));
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredentials) => {
-        console.log("Logged in with:", userCredentials.user.email);
-      })
-      .catch((error) => Alert.alert("Login failed", "Incorrect credentials"))
-      .finally(() => dispatch<any>(setLoading(false)))
+    getSignIn(email, password, getUserData);
   };
-
 
   return (
     <KeyboardAvoidingView style={styles.container} enabled={false} behavior="height">

@@ -13,6 +13,7 @@ import { useFonts } from 'expo-font';
 import Entypo from '@expo/vector-icons/Entypo';
 import { Store } from './src/redux/store';
 import Loading from './src/components/Loading';
+import AppProvider from './src/hooks';
 
 export default function App() {
 
@@ -62,12 +63,14 @@ export default function App() {
 
   return (
     <Provider store={Store as any}>
-      <SafeAreaProvider>
-        <ThemeProvider>
-          <AppRoutes onLayoutRootView={onLayoutRootView} />
-          <Loading />
-        </ThemeProvider>
-      </SafeAreaProvider>
+      <AppProvider>
+        <SafeAreaProvider>
+          <ThemeProvider>
+            <AppRoutes onLayoutRootView={onLayoutRootView} />
+            <Loading />
+          </ThemeProvider>
+        </SafeAreaProvider>
+      </AppProvider>
     </Provider >
   );
 }

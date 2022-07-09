@@ -8,7 +8,7 @@ import {
 import { auth } from "../../services/firebase/firebase";
 import { useDispatch } from "react-redux";
 import { setLoading, setSessionLogged, setTabSelected } from "../../redux/actions";
-import { 
+import {
   Box, CheckSpan, Container1, Disclaimer,
   Login, MyName, PageContainer, PowerdBy,
   Question, Signup, Span, SubHeading,
@@ -31,9 +31,9 @@ const LoginScreen = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        dispatch<any>(setSessionLogged(true));
-        dispatch<any>(setLoading(false));
-        dispatch<any>(setTabSelected("Home"));
+        dispatch(setSessionLogged(true));
+        dispatch(setLoading(false));
+        dispatch(setTabSelected("Home"));
         navigation.navigate("Home");
       }
     });

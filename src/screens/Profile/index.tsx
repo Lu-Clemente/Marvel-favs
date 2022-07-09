@@ -14,9 +14,8 @@ import {
 }
     from "./styles";
 import { auth } from "../../services/firebase/firebase";
-import { signOut, deleteUser } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { setLoading, setSessionLogged, setTabSelected } from "../../redux/actions";
+import { setLoading, setTabSelected } from "../../redux/actions";
 import { Icon } from "react-native-elements";
 import BottomBar from "../../components/BottomBar";
 import { updatePassword } from "firebase/auth";
@@ -110,7 +109,7 @@ const Profile = () => {
         })
     }
 
-    
+
 
     return (
         <Container modalOpen={showModal}>

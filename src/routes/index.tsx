@@ -1,12 +1,12 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/Home/HomeScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import SignUp from "../screens/SignUp/SignUp"
 import Characters from '../screens/Characters/Characters';
-import Movies from '../screens/Movies/Movies';
+import Favorites from '../screens/Favorites';
 import Greetings from '../screens/Greetings';
 import Profile from '../screens/Profile';
 import DeleteAccount from '../screens/DeleteAccount';
@@ -54,8 +54,8 @@ const InitialStackScreen = () => (
             }}
         />
         <Stack.Screen
-            name="Movies"
-            component={Movies}
+            name="Favorites"
+            component={Favorites}
         />
         <Stack.Screen
             name="Greetings"

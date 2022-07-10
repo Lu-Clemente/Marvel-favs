@@ -22,12 +22,20 @@ import { updatePassword } from "firebase/auth";
 import theme from "../../helpers/theme";
 import BasicButton from "../../components/Buttons/Basic";
 import { useAuthUser } from "../../hooks/providers/useAuthUser";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../services/firebase/firestore";
+import { useUid } from "../../hooks/providers/useUid";
 
 const Profile = () => {
 
     const navigation = useNavigation<any>();
     const dispatch = useDispatch();
-    const { getReauthenticate, getUserDeleted, getSignOut } = useAuthUser();
+    const {
+        getReauthenticate,
+        getUserDeleted,
+        getSignOut
+    } = useAuthUser();
+    const { uid } = useUid();
 
     const [currentUserName, setCurrentUserName] = useState<string | null>("");
     const [currentUserEmail, setCurrentUserEmail] = useState<string | null>("");
@@ -53,6 +61,18 @@ const Profile = () => {
         }
     }, [])
 
+    const deleteUserDB = async () => {
+        const userDoc = doc(db, "users", uid);
+
+        deleteDoc(userDoc)
+            .then(() => {
+                console.log("User successfully deleted");
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
     const handleGoBack = () => {
         navigation.goBack();
     }
@@ -71,7 +91,7 @@ const Profile = () => {
                     onPress: () => null,
                     style: "cancel"
                 },
-                { text: "Yes, I better go!", onPress: () => getUserDeleted(navigation) }
+                { text: "Yes, I better go!", onPress: () => getUserDeleted(navigation, deleteUserDB) }
             ]);
         return;
     }

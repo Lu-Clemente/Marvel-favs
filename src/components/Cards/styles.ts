@@ -78,6 +78,16 @@ export const Wrapper = styled(View)`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+`;
+
+export const Fav = styled(TouchableOpacity)`
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background-color: #444;
+    padding: 10px;
+    border-radius: 35px;
 `;
 
 export const Stats = styled(View)`

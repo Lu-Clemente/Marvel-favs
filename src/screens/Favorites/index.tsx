@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Card from "../../components/Cards";
 import { Icon } from 'react-native-elements';
-import { Back, Container, Page, Scroll } from './styles';
+import { Back, Container, Page, PlaceholderCard, Scroll } from './styles';
 import BottomBar from '../../components/BottomBar';
 import { useDispatch } from 'react-redux';
 import { setLoading, setTabSelected } from '../../redux/actions';
-import { doc, getDoc } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase/firestore';
 import { sendGetRequestFilterId } from '../../services/requests';
 import { Alert } from 'react-native';
@@ -28,7 +28,7 @@ const Favorites = () => {
 
     const navigation = useNavigation<any>();
     const dispatch = useDispatch();
-    const { getUserData, uid } = useUid();
+    const { uid } = useUid();
 
     const [favorites, setFavorites] = useState<IData[]>([]);
     const [apiResults, setApiResults] = useState<number[]>([]);
@@ -41,36 +41,12 @@ const Favorites = () => {
         return unsubscribe;
     }, []);
 
-    useEffect(() => {
-        getUserData();
-    }, [])
-
     const handleGoBack = () => {
         navigation.goBack();
     }
 
-    const getOneUserDB = useCallback(async () => {
-
-        dispatch(setLoading(true));
-        const docRef = doc(db, "users", uid);
-
-        getDoc(docRef)
-            .then((response) => {
-                if (response.exists()) {
-                    setApiResults(response.data().favorites);
-                    getList(response.data().favorites);
-                } else {
-                    console.log("No such document!");
-                }
-            })
-            .catch((err) => {
-                console.error(`[${err}] Error getting collection`);
-            });
-    }, []);
-
     const getList = useCallback(async (arrayList: number[]) => {
         if (!arrayList || arrayList.length === 0) {
-            console.log("Ta vazio")
             return;
         }
         arrayList.map((elem) => {
@@ -93,11 +69,55 @@ const Favorites = () => {
                     dispatch(setLoading(false));
                 });
         })
+    }, [])
+
+    const getOneUserDB = useCallback(async () => {
+
+        dispatch(setLoading(true));
+        const docRef = doc(db, "users", uid);
+
+        getDoc(docRef)
+            .then((response) => {
+                if (response.exists()) {
+                    setApiResults(response.data().favorites);
+                    //getList(response.data().favorites);
+                } else {
+                    console.log("No such document!");
+                }
+            })
+            .catch((err) => {
+                console.error(`[${err}] Error getting collection`);
+            });
     }, []);
 
     useEffect(() => {
-        getOneUserDB();
-    }, [getOneUserDB])
+        if (uid) {
+            getOneUserDB();
+        }
+    }, [getOneUserDB, uid])
+
+    useEffect(() => {
+        if (apiResults) {
+            getList(apiResults)
+        }
+    }, [apiResults])
+
+    const updateFavoritesDB = async (value: number, action: "add" | "remove") => {
+        const userDoc = doc(db, "users", uid)
+
+        updateDoc(userDoc, {
+            favorites: action === "add" ? arrayUnion(value) : arrayRemove(value)
+        })
+            .then(() => {
+                getOneUserDB()
+            })
+            .then(() => {
+                console.log("Success updating Favs");
+            })
+            .catch((err) => {
+                console.error("Error adding document: ", err);
+            })
+    }
 
     return (
         <Container apiResults={apiResults}>
@@ -138,8 +158,16 @@ const Favorites = () => {
                                 name={e.results[0].name}
                                 thumbnail={e.results[0].thumbnail?.path}
                                 extension={e.results[0].thumbnail?.extension} description={e.results[0].description}
+                                updateFavoritesDB={updateFavoritesDB}
+                                characterId={e.results[0].id}
+                                isFav={apiResults.includes(e.results[0].id) ? true : false}
                             />
                         ))
+                    )
+                }
+                {
+                    apiResults.length === 3 && (
+                        <PlaceholderCard />
                     )
                 }
             </Scroll>

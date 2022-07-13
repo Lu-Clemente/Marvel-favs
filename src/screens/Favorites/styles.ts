@@ -1,14 +1,16 @@
 import {
+    Dimensions,
     ScrollView,
     Text,
     View,
 } from "react-native";
 import styled from "styled-components";
 
+const { width } = Dimensions.get("window");
+
 export const Container = styled(View)<{apiResults: number[]}>`
     justify-content: space-between;
     align-items: ${({ apiResults }) => apiResults.length <= 4 ? "center" : "flex-start"};
-    
     height: 100%;
     width: 100%;
     background-color: #000;
@@ -33,4 +35,13 @@ export const Page = styled(Text)`
 
 export const Scroll = styled(ScrollView)`
     height: 500px;
+`;
+
+export const PlaceholderCard = styled(View)`
+    height: 245px;
+    width: ${(width / 2) - 50}px;
+    padding-top: 0;
+    background-color: transparent;
+    border-radius: 35px;
+    margin: 5px 10px;
 `;

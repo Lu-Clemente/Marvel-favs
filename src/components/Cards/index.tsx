@@ -1,23 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Image, ImageBackground, Dimensions, ScrollView } from 'react-native';
-import Config from 'react-native-config';
-import { Bio, Box, Close, CloseText, Container, Details, HeroName, ModalDetail, Name, SeeDetails, Stats, Wrapper } from "./styles";
+import { Icon } from "react-native-elements";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faStar } from "@fortawesome/free-regular-svg-icons";
+import { Bio, Box, Close, CloseText, Container, Details, Fav, HeroName, ModalDetail, Name, SeeDetails, Stats, Wrapper } from "./styles";
 
 type Props = {
     name: string;
     thumbnail?: string;
     extension?: string;
     description?: string;
+    characterId: number;
+    updateFavoritesDB: (value: number, action: "add" | "remove") => Promise<void>;
+    isFav: boolean;
 }
 
 const { width } = Dimensions.get("window");
 
-const Card: React.FC<Props> = ({ name, thumbnail, extension, description }) => {
+const Card: React.FC<Props> = ({
+    name,
+    thumbnail,
+    extension,
+    description,
+    characterId,
+    updateFavoritesDB,
+    isFav
+}) => {
 
-    // Modal Handling
     const [open, setOpen] = useState(false);
+
     const handleModal = () => {
         setOpen(!open)
+    }
+
+    const handleStar = () => {
+        if (isFav) {
+            return (
+                <Fav style={{ elevation: 8 }} onPress={() => updateFavoritesDB(characterId, "remove")}>
+                    <Icon
+                        name='star'
+                        type='font-awesome'
+                        color='#fbff00'
+                        size={25}
+                        tvParallaxProperties={undefined}
+                    />
+                </Fav>
+            )
+        } else {
+            return (
+                <Fav style={{ elevation: 8 }} onPress={() => updateFavoritesDB(characterId, "add")}>
+                    <FontAwesomeIcon
+                        icon={faStar}
+                        color="#fbff00"
+                        size={25}
+                    />
+                </Fav>
+            )
+        }
     }
 
     return (
@@ -40,6 +79,8 @@ const Card: React.FC<Props> = ({ name, thumbnail, extension, description }) => {
                                     }}
                                     resizeMode="cover"
                                 />
+
+                                {handleStar()}
 
                                 <Stats>
                                     <HeroName>{name}</HeroName>

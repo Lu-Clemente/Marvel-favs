@@ -1,16 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Alert } from 'react-native';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import Card from "../../components/Cards";
 import { Icon } from 'react-native-elements';
-import { sendGetRequestFilterId } from '../../services/requests';
-import { Back, Container, Page, Scroll } from './styles';
+import { Back, Container, Page, PlaceholderCard, Scroll } from './styles';
 import BottomBar from '../../components/BottomBar';
 import { useDispatch } from 'react-redux';
 import { setLoading, setTabSelected } from '../../redux/actions';
-import { results } from '../../services/requests/charactersIds';
 import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase/firestore';
+import { sendGetRequestFilterId } from '../../services/requests';
+import { Alert } from 'react-native';
 import { useUid } from '../../hooks/providers/useUid';
 
 export interface IData {
@@ -25,75 +24,52 @@ export interface IData {
     }[]
 }
 
-const Characters = () => {
+const Favorites = () => {
 
     const navigation = useNavigation<any>();
     const dispatch = useDispatch();
     const { uid } = useUid();
 
-    const [list, setList] = useState<IData[]>([]);
-    const [listFavs, setListFavs] = useState<number[]>([]);
+    const [favorites, setFavorites] = useState<IData[]>([]);
+    const [apiResults, setApiResults] = useState<number[]>([]);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            dispatch<any>(setTabSelected("Characters"));
+            dispatch(setTabSelected("Favorites"));
         });
         // Return the function to unsubscribe from the event so it gets removed on unmount
         return unsubscribe;
     }, []);
 
-    useEffect(() => {
-        results.length !== list?.length
-            ? dispatch(setLoading(true))
-            : dispatch(setLoading(false));
-    }, [list]);
-
     const handleGoBack = () => {
         navigation.goBack();
     }
 
-    const updateFavoritesDB = async (value: number, action: "add" | "remove") => {
-        const userDoc = doc(db, "users", uid)
-
-        updateDoc(userDoc, {
-            favorites: action === "add" ? arrayUnion(value) : arrayRemove(value)
-        })
-            .then(() => {
-                console.log("Success!");
-            })
-            .catch((err) => {
-                console.error("Error updating document: ", err);
-            })
-    }
-
-    useFocusEffect(
-        useCallback(() => {
-            async function getOList() {
-
-                results.map((elem) => {
-                    sendGetRequestFilterId('characters', elem.id).then((response) => {
-                        if (response.data.status === 'Ok' && list) {
-                            setList(oldArray => [...oldArray, response.data.data]);
-                        } else {
-                            Alert.alert('Erro', response.data.erro);
-                        }
-                    })
-                        .catch((error) => {
-                            if (error?.message === 'Network Error') {
-                                Alert.alert('Network Error', 'Try again later');
-                            } else {
-                                Alert.alert('Error', 'Request failure');
-                            }
-                        })
-                        .finally(() => {
-                            dispatch<any>(setLoading(false));
-                        })
+    const getList = useCallback(async (arrayList: number[]) => {
+        if (!arrayList || arrayList.length === 0) {
+            return;
+        }
+        arrayList.map((elem) => {
+            sendGetRequestFilterId('characters', elem)
+                .then((response) => {
+                    if (response.data.status === 'Ok' && favorites) {
+                        setFavorites(oldArray => [...oldArray, response.data.data]);
+                    } else {
+                        Alert.alert('Erro', response.data.erro);
+                    }
                 })
-            }
-            getOList();
-        }, [],
-        ),
-    );
+                .catch((error) => {
+                    if (error?.message === 'Network Error') {
+                        Alert.alert('Network Error', 'Try again later');
+                    } else {
+                        Alert.alert('Error', 'Request failure');
+                    }
+                })
+                .finally(() => {
+                    dispatch(setLoading(false));
+                });
+        })
+    }, [])
 
     const getOneUserDB = useCallback(async () => {
 
@@ -103,7 +79,8 @@ const Characters = () => {
         getDoc(docRef)
             .then((response) => {
                 if (response.exists()) {
-                    setListFavs(response.data().favorites);
+                    setApiResults(response.data().favorites);
+                    //getList(response.data().favorites);
                 } else {
                     console.log("No such document!");
                 }
@@ -119,8 +96,31 @@ const Characters = () => {
         }
     }, [getOneUserDB, uid])
 
+    useEffect(() => {
+        if (apiResults) {
+            getList(apiResults)
+        }
+    }, [apiResults])
+
+    const updateFavoritesDB = async (value: number, action: "add" | "remove") => {
+        const userDoc = doc(db, "users", uid)
+
+        updateDoc(userDoc, {
+            favorites: action === "add" ? arrayUnion(value) : arrayRemove(value)
+        })
+            .then(() => {
+                getOneUserDB()
+            })
+            .then(() => {
+                console.log("Success updating Favs");
+            })
+            .catch((err) => {
+                console.error("Error adding document: ", err);
+            })
+    }
+
     return (
-        <Container>
+        <Container apiResults={apiResults}>
             <Back>
                 <Icon
                     name='long-arrow-left'
@@ -131,27 +131,28 @@ const Characters = () => {
                     tvParallaxProperties={undefined}
                 />
                 <Icon
-                    name='users'
+                    name='film'
                     type='font-awesome'
                     color='#f00'
                     size={25}
                     tvParallaxProperties={undefined}
                 />
-                <Page>Characters</Page>
+                <Page>Favorites</Page>
             </Back>
 
             <Scroll
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
-                    flexDirection: "column",
+                    flexDirection: apiResults.length <= 2 ? "row" : "column",
                     flexWrap: "wrap",
-                    justifyContent: "space-around"
+                    justifyContent: "space-around",
+                    alignItems: "center"
                 }}
             >
                 {
-                    results.length === list?.length && (
-                        list?.map((e, index) => (
+                    apiResults?.length === favorites?.length && (
+                        favorites?.map((e, index) => (
                             <Card
                                 key={index}
                                 name={e.results[0].name}
@@ -159,9 +160,14 @@ const Characters = () => {
                                 extension={e.results[0].thumbnail?.extension} description={e.results[0].description}
                                 updateFavoritesDB={updateFavoritesDB}
                                 characterId={e.results[0].id}
-                                isFav={listFavs.includes(e.results[0].id) ? true : false}
+                                isFav={apiResults.includes(e.results[0].id) ? true : false}
                             />
                         ))
+                    )
+                }
+                {
+                    apiResults.length === 3 && (
+                        <PlaceholderCard />
                     )
                 }
             </Scroll>
@@ -172,4 +178,4 @@ const Characters = () => {
     )
 }
 
-export default Characters;
+export default Favorites;

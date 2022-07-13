@@ -18,7 +18,7 @@ import {
 
 interface AuthUserContextData {
     getSignOut: (navigation: any) => void;
-    getUserDeleted: (navigation: any) => void;
+    getUserDeleted: (navigation: any, deleteUserDB: () => Promise<void>) => void;
     getReauthenticate: (email: string, password: string) => Promise<UserCredential> | undefined;
     getSignIn: (email: string, password: string, getUserData: (email?: string | undefined) => void) => void;
     getForgetPassword: (email: string, navigation: any) => void;
@@ -50,17 +50,21 @@ const AuthUserProvider = function ({ children }: { children: any }) {
             .finally(() => dispatch(setLoading(false)))
     }
 
-    const getUserDeleted = (navigation: any) => {
+    const getUserDeleted = (navigation: any, deleteUserDB: () => Promise<void>) => {
 
         dispatch(setLoading(true));
 
         const user = auth.currentUser;
 
         if (user) {
-            deleteUser(user).then(() => {
-                navigation.navigate("DeleteAccount");
-                dispatch(setSessionLogged(false));
-            })
+            deleteUser(user)
+                .then(() => {
+                    deleteUserDB();
+                })
+                .then(() => {
+                    navigation.navigate("DeleteAccount");
+                    dispatch(setSessionLogged(false));
+                })
                 .catch((error) => {
                     if (error?.message === 'Network Error') {
                         Alert.alert('Network Error', 'Try again later');

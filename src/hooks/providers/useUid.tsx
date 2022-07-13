@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { getDocs } from 'firebase/firestore';
 import React, {
-    createContext, useContext, useState
+    createContext, useContext, useEffect, useState
 } from 'react';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../../redux/actions';
@@ -21,11 +21,9 @@ const UidProvider = function ({ children }: { children: any }) {
     const dispatch = useDispatch();
     const [uid, setUid] = useState("");
 
-    React.useEffect(() => {
-        if (uid) {
-            console.log("Uid: " + uid);
-        }
-    }, [uid])
+    useEffect(() => {
+        getUserData();
+    }, [])
 
     const getUserData = async (userEmail = "") => {
 

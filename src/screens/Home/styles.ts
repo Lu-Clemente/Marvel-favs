@@ -1,8 +1,9 @@
 import {
-    TouchableOpacity,
+    Text,
     View,
 } from "react-native";
 import styled from "styled-components";
+import theme from "../../helpers/theme";
 
 export const Container = styled(View)`
     justify-content: space-between;
@@ -16,16 +17,14 @@ export const Container = styled(View)`
 export const Wrapper = styled(View)`
     justify-content: space-around;
     align-items: center;
-    flex-direction: row;
     padding-top: 30px;
     width: 100%;
 `;
 
-export const Btn = styled(TouchableOpacity)`
-  width: 120px;
-  height: 50px;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #f00;
-  border-radius: 10px;
+export const WelcomeText = styled(Text)`
+  font-family: ${theme.fonts.AxiformaRegular};
+  font-size: 20px;
+  color: #fff;
+  margin-top: 20px;
+  text-align: center;
 `;

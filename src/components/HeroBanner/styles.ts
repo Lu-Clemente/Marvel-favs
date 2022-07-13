@@ -7,23 +7,23 @@ import {
 import styled from "styled-components";
 import theme from "../../helpers/theme";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 export const Container = styled(View)`
     display: flex;
     align-items: center;
     flex-direction: column;
-    height: 245px;
-    width: ${(width / 2) - 50}px;
+    height: ${height * 60 / 100}px;
+    width: ${width - 50}px;
     padding-top: 0;
     background-color: #343436;
     border-radius: 35px;
     margin: 5px 10px;
 `;
 
-export const Box = styled(View)`
-    width: ${(width / 2) - 50}px;
-    height: 100px;
+export const Box = styled(TouchableOpacity)`
+    width: ${width - 50}px;
+    height: ${height * 15 / 100}px;
     background-color: rgba(255,0,0,.65);
     display: flex;
     flex-direction: column;
@@ -35,7 +35,7 @@ export const Box = styled(View)`
 
 export const Name = styled(Text)`
     color: white;
-    font-size: 15px;
+    font-size: 25px;
     text-align: center;
     font-weight: 700;
 `;
@@ -47,16 +47,11 @@ export const Bio = styled(Text)`
     text-align: justify;
 `;
 
-export const Details = styled(TouchableOpacity)`
-    height: 20px;
-    width: 90%;
-    margin: 0 auto;
-`;
-
 export const SeeDetails = styled(Text)`
     color: white;
-    font-size: 13px;
+    font-size: 18px;
     text-align: center;
+    font-family: ${theme.fonts.AxiformaRegular};
 `;
 
 export const ModalDetail = styled(View)`

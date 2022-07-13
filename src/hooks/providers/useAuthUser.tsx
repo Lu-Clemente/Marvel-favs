@@ -8,7 +8,6 @@ import { auth } from '../../services/firebase/firebase';
 import { Alert } from 'react-native';
 import {
     createUserWithEmailAndPassword,
-    deleteUser,
     EmailAuthProvider,
     reauthenticateWithCredential,
     sendPasswordResetEmail,
@@ -18,7 +17,6 @@ import {
 
 interface AuthUserContextData {
     getSignOut: (navigation: any) => void;
-    getUserDeleted: (navigation: any) => void;
     getReauthenticate: (email: string, password: string) => Promise<UserCredential> | undefined;
     getSignIn: (email: string, password: string, getUserData: (email?: string | undefined) => void) => void;
     getForgetPassword: (email: string, navigation: any) => void;
@@ -48,30 +46,6 @@ const AuthUserProvider = function ({ children }: { children: any }) {
                 }
             })
             .finally(() => dispatch(setLoading(false)))
-    }
-
-    const getUserDeleted = (navigation: any) => {
-
-        dispatch(setLoading(true));
-
-        const user = auth.currentUser;
-
-        if (user) {
-            deleteUser(user).then(() => {
-                navigation.navigate("DeleteAccount");
-                dispatch(setSessionLogged(false));
-            })
-                .catch((error) => {
-                    if (error?.message === 'Network Error') {
-                        Alert.alert('Network Error', 'Try again later');
-                    } else {
-                        Alert.alert('Error', 'Request failure');
-                    }
-                })
-                .finally(() => {
-                    dispatch(setLoading(false));
-                });
-        }
     }
 
     const getReauthenticate = (currentUserEmail: string, currentPassword: string) => {
@@ -135,7 +109,6 @@ const AuthUserProvider = function ({ children }: { children: any }) {
         <AuthUserContext.Provider
             value={{
                 getSignOut,
-                getUserDeleted,
                 getReauthenticate,
                 getSignIn,
                 getForgetPassword,

@@ -20,8 +20,8 @@ const screens = [
         iconName: "users"
     },
     {
-        screen: "Movies",
-        iconName: "film"
+        screen: "Favorites",
+        iconName: "star"
     },
     {
         screen: "Profile",

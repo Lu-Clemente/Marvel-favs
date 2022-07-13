@@ -15,10 +15,10 @@ import {
     from "./styles";
 import { auth } from "../../services/firebase/firebase";
 import { useDispatch } from "react-redux";
-import { setLoading, setTabSelected } from "../../redux/actions";
+import { setLoading, setSessionLogged, setTabSelected } from "../../redux/actions";
 import { Icon } from "react-native-elements";
 import BottomBar from "../../components/BottomBar";
-import { updatePassword } from "firebase/auth";
+import { deleteUser, updatePassword } from "firebase/auth";
 import theme from "../../helpers/theme";
 import BasicButton from "../../components/Buttons/Basic";
 import { useAuthUser } from "../../hooks/providers/useAuthUser";
@@ -32,7 +32,6 @@ const Profile = () => {
     const dispatch = useDispatch();
     const {
         getReauthenticate,
-        getUserDeleted,
         getSignOut
     } = useAuthUser();
     const { uid } = useUid();
@@ -44,6 +43,7 @@ const Profile = () => {
     const [newPassword, setNewPassword] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
+    const [accountAction, setAccountAction] = useState('password');
 
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -81,6 +81,44 @@ const Profile = () => {
         getSignOut(navigation);
     }
 
+    const getUserDeleted = () => {
+
+        dispatch(setLoading(true));
+
+        getReauthenticate(currentUserEmail || '', currentPassword)
+            ?.then(() => {
+                const user = auth.currentUser;
+                if (user) {
+                    deleteUser(user)
+                        .then(() => {
+                            deleteUserDB();
+                        })
+                        .then(() => {
+                            navigation.navigate("DeleteAccount");
+                            dispatch(setSessionLogged(false));
+                        })
+                        .catch((error) => {
+                            if (error?.message === 'Network Error') {
+                                Alert.alert('Network Error', 'Try again later');
+                            } else {
+                                Alert.alert('Error', 'Request failure');
+                                console.log(error)
+                            }
+                        })
+                        .finally(() => {
+                            dispatch(setLoading(false));
+                        });
+                }
+            })
+            .catch((err: any) => {
+                console.log(err);
+                setErrorPassword(true);
+            })
+            .finally(() => {
+                dispatch(setLoading(false));
+            })
+    }
+
     const handleDeleteUser = () => {
         Alert.alert(
             "We don't want you to leave",
@@ -91,7 +129,7 @@ const Profile = () => {
                     onPress: () => null,
                     style: "cancel"
                 },
-                { text: "Yes, I better go!", onPress: () => getUserDeleted(navigation, deleteUserDB) }
+                { text: "Yes, I better go!", onPress: () => getUserDeleted() }
             ]);
         return;
     }
@@ -128,8 +166,6 @@ const Profile = () => {
             dispatch(setLoading(false));
         })
     }
-
-
 
     return (
         <Container modalOpen={showModal}>
@@ -179,7 +215,7 @@ const Profile = () => {
                 <Buttons>
                     <BasicButton
                         lable="Change password"
-                        triggerFunction={() => setShowModal(true)}
+                        triggerFunction={() => { setShowModal(true); setAccountAction("password") }}
                         style={{
                             width: "60%",
                             marginVertical: 15,
@@ -188,7 +224,7 @@ const Profile = () => {
 
                     <BasicButton
                         lable="Delete account"
-                        triggerFunction={handleDeleteUser}
+                        triggerFunction={() => { setShowModal(true); setAccountAction("delete") }}
                         themeType={2}
                         style={{
                             width: "60%",
@@ -213,7 +249,15 @@ const Profile = () => {
                                 <WarningText>Warning: this operation can't be undone</WarningText>
                             </Warning>
 
-                            <WarningText style={{ fontSize: 16 }}>Inform your current password and create a new password</WarningText>
+                            {
+                                accountAction === "password"
+                                    ? (
+                                        <WarningText style={{ fontSize: 16 }}>Inform your current password and create a new password</WarningText>
+                                    )
+                                    : (
+                                        <WarningText style={{ fontSize: 16 }}>Inform your current password</WarningText>
+                                    )
+                            }
 
                             <UserPass>
                                 <UserInput
@@ -223,20 +267,28 @@ const Profile = () => {
                                     placeholderTextColor='gray'
                                     secureTextEntry
                                 />
-                                <UserInput
-                                    placeholder="New password"
-                                    value={newPassword}
-                                    onChangeText={(text) => setNewPassword(text)}
-                                    placeholderTextColor='gray'
-                                    secureTextEntry
-                                />
+                                {
+                                    accountAction === "password" && (
+                                        <UserInput
+                                            placeholder="New password"
+                                            value={newPassword}
+                                            onChangeText={(text) => setNewPassword(text)}
+                                            placeholderTextColor='gray'
+                                            secureTextEntry
+                                        />
+                                    )
+                                }
                             </UserPass>
 
                             {errorPassword && <ErrorText>Incorrect current password</ErrorText>}
 
                             <BasicButton
                                 lable="Confirm"
-                                triggerFunction={handleChangePassword}
+                                triggerFunction={
+                                    accountAction === "password"
+                                        ? handleChangePassword
+                                        : handleDeleteUser
+                                }
                                 style={{
                                     width: "60%",
                                     marginVertical: 15,

@@ -9,6 +9,9 @@ import BottomBar from '../../components/BottomBar';
 import { useDispatch } from 'react-redux';
 import { setLoading, setTabSelected } from '../../redux/actions';
 import { results } from '../../services/requests/charactersIds';
+import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { db } from '../../services/firebase/firestore';
+import { useUid } from '../../hooks/providers/useUid';
 
 export interface IData {
     results: {
@@ -26,8 +29,10 @@ const Characters = () => {
 
     const navigation = useNavigation<any>();
     const dispatch = useDispatch();
+    const { uid } = useUid();
 
     const [list, setList] = useState<IData[]>([]);
+    const [listFavs, setListFavs] = useState<number[]>([]);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -39,14 +44,26 @@ const Characters = () => {
 
     useEffect(() => {
         results.length !== list?.length
-            ?
-            dispatch<any>(setLoading(true))
-            :
-            dispatch<any>(setLoading(false));
+            ? dispatch(setLoading(true))
+            : dispatch(setLoading(false));
     }, [list]);
 
     const handleGoBack = () => {
         navigation.goBack();
+    }
+
+    const updateFavoritesDB = async (value: number, action: "add" | "remove") => {
+        const userDoc = doc(db, "users", uid)
+
+        updateDoc(userDoc, {
+            favorites: action === "add" ? arrayUnion(value) : arrayRemove(value)
+        })
+            .then(() => {
+                console.log("Success!");
+            })
+            .catch((err) => {
+                console.error("Error updating document: ", err);
+            })
     }
 
     useFocusEffect(
@@ -77,6 +94,30 @@ const Characters = () => {
         }, [],
         ),
     );
+
+    const getOneUserDB = useCallback(async () => {
+
+        dispatch(setLoading(true));
+        const docRef = doc(db, "users", uid);
+
+        getDoc(docRef)
+            .then((response) => {
+                if (response.exists()) {
+                    setListFavs(response.data().favorites);
+                } else {
+                    console.log("No such document!");
+                }
+            })
+            .catch((err) => {
+                console.error(`[${err}] Error getting collection`);
+            });
+    }, []);
+
+    useEffect(() => {
+        if (uid) {
+            getOneUserDB();
+        }
+    }, [getOneUserDB, uid])
 
     return (
         <Container>
@@ -116,6 +157,9 @@ const Characters = () => {
                                 name={e.results[0].name}
                                 thumbnail={e.results[0].thumbnail?.path}
                                 extension={e.results[0].thumbnail?.extension} description={e.results[0].description}
+                                updateFavoritesDB={updateFavoritesDB}
+                                characterId={e.results[0].id}
+                                isFav={listFavs.includes(e.results[0].id) ? true : false}
                             />
                         ))
                     )

@@ -48,3 +48,17 @@
 4. Run the project:
 
 `$ expo start`
+
+## Preview
+
+<p align="center">
+ <img width="30%" src="https://github.com/Lu-Clemente/Marvel-favs/blob/main/assets/preview/Preview1.png">
+ <img width="30%" src="https://github.com/Lu-Clemente/Marvel-favs/blob/main/assets/preview/Preview2.png">
+ <img width="30%" src="https://github.com/Lu-Clemente/Marvel-favs/blob/main/assets/preview/Preview3.png">
+</p>
+
+<p align="center">
+ <img width="30%" src="https://github.com/Lu-Clemente/Marvel-favs/blob/main/assets/preview/Preview7.png">
+ <img width="30%" src="https://github.com/Lu-Clemente/Marvel-favs/blob/main/assets/preview/Preview8.png">
+ <img width="30%" src="https://github.com/Lu-Clemente/Marvel-favs/blob/main/assets/preview/Preview4.png">
+</p>
